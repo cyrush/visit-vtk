@@ -176,6 +176,9 @@ public:
   static vtkRectilinearGrid* GetData(vtkInformationVector* v, int i=0);
   //ETX
 
+  void SetDataDescription(int desc);
+  int GetDataDescription() const { return this->DataDescription; }
+
 protected:
   vtkRectilinearGrid();
   ~vtkRectilinearGrid();

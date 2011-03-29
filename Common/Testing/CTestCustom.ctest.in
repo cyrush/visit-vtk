@@ -38,4 +38,3 @@ SET(CTEST_CUSTOM_MEMCHECK_IGNORE
   largeImageParallel-image
   Sockets-image
   )
-

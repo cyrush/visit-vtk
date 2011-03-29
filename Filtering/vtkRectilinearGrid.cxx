@@ -39,10 +39,10 @@ vtkCxxSetObjectMacro(vtkRectilinearGrid,ZCoordinates,vtkDataArray);
 //----------------------------------------------------------------------------
 vtkRectilinearGrid::vtkRectilinearGrid()
 {
-  this->Vertex = vtkVertex::New();
-  this->Line = vtkLine::New();
-  this->Pixel = vtkPixel::New();
-  this->Voxel = vtkVoxel::New();
+  this->Vertex = NULL;
+  this->Line = NULL;
+  this->Pixel = NULL;
+  this->Voxel = NULL;
   
   this->Dimensions[0] = 0;
   this->Dimensions[1] = 0;
@@ -76,12 +76,22 @@ vtkRectilinearGrid::vtkRectilinearGrid()
 vtkRectilinearGrid::~vtkRectilinearGrid()
 {
   this->Cleanup();
-
-  this->Vertex->Delete();
-  this->Line->Delete();
-  this->Pixel->Delete();
-  this->Voxel->Delete();
-
+  if ( this->Vertex )
+     {
+     this->Vertex->Delete();
+     }
+  if ( this->Line )
+     {
+     this->Line->Delete();
+     }
+  if ( this->Pixel )
+     {
+     this->Pixel->Delete();
+     }
+  if ( this->Voxel )
+     {
+     this->Voxel->Delete();
+     }
 }
 
 //----------------------------------------------------------------------------
@@ -133,7 +143,6 @@ void vtkRectilinearGrid::CopyStructure(vtkDataSet *ds)
     this->Dimensions[i] = rGrid->Dimensions[i];
     }
   this->SetExtent(rGrid->GetExtent());
-  this->DataDescription = rGrid->DataDescription;
 
   this->SetXCoordinates(rGrid->XCoordinates);
   this->SetYCoordinates(rGrid->YCoordinates);
@@ -152,7 +161,7 @@ vtkCell *vtkRectilinearGrid::GetCell(vtkIdType cellId)
 
   iMin = iMax = jMin = jMax = kMin = kMax = 0;
 
-  switch (this->DataDescription)
+  switch (this->GetDataDescription())
     {
     case VTK_EMPTY:
       //return this->EmptyCell;
@@ -215,6 +224,11 @@ vtkCell *vtkRectilinearGrid::GetCell(vtkIdType cellId)
       break;
     }
 
+  if( !cell )
+    {
+    return NULL;
+    }
+
 
   // Extract point coordinates and point ids
   for (npts=0,loc[2]=kMin; loc[2]<=kMax; loc[2]++)
@@ -248,7 +262,7 @@ void vtkRectilinearGrid::GetCell(vtkIdType cellId, vtkGenericCell *cell)
 
   iMin = iMax = jMin = jMax = kMin = kMax = 0;
 
-  switch (this->DataDescription)
+  switch (this->GetDataDescription())
     {
     case VTK_EMPTY:
       cell->SetCellTypeToEmptyCell();
@@ -340,7 +354,7 @@ void vtkRectilinearGrid::GetCellBounds(vtkIdType cellId, double bounds[6])
 
   iMin = iMax = jMin = jMax = kMin = kMax = 0;
 
-  switch (this->DataDescription)
+  switch (this->GetDataDescription())
     {
     case VTK_EMPTY:
       return;
@@ -432,7 +446,7 @@ double *vtkRectilinearGrid::GetPoint(vtkIdType ptId)
 {
   int loc[3];
 
-  switch (this->DataDescription)
+  switch (this->GetDataDescription())
     {
     case VTK_EMPTY: 
       this->PointReturn[0] = 0.0;
@@ -486,7 +500,7 @@ double *vtkRectilinearGrid::GetPoint(vtkIdType ptId)
 
     default:
       vtkErrorMacro( << "Unexpected value for DataDescription ("
-        << this->DataDescription
+        << this->GetDataDescription()
         << ") in vtkRectilinearGrid::GetPoint" );
       loc[0] = loc[1] = loc[2] = 0;
       break;
@@ -503,7 +517,7 @@ void vtkRectilinearGrid::GetPoint(vtkIdType ptId, double x[3])
 {
   int loc[3];
 
-  switch (this->DataDescription)
+  switch (this->GetDataDescription())
     {
     case VTK_EMPTY:
       vtkErrorMacro("Requesting a point from an empty data set.");
@@ -555,7 +569,7 @@ void vtkRectilinearGrid::GetPoint(vtkIdType ptId, double x[3])
 
     default:
       vtkErrorMacro( << "Unexpected value for DataDescription ("
-        << this->DataDescription
+        << this->GetDataDescription()
         << ") in vtkRectilinearGrid::GetPoint" );
       loc[0] = loc[1] = loc[2] = 0;
       break;
@@ -637,7 +651,7 @@ vtkIdType vtkRectilinearGrid::FindCell(double x[3], vtkCell *vtkNotUsed(cell),
     return -1;
     }
 
-  this->Voxel->InterpolationFunctions(pcoords,weights);
+  vtkVoxel::InterpolationFunctions(pcoords,weights);
 
   //
   //  From this location get the cell id
@@ -665,7 +679,7 @@ vtkCell *vtkRectilinearGrid::FindAndGetCell(double x[3],
   //
   // Get the parametric coordinates and weights for interpolation
   //
-  this->Voxel->InterpolationFunctions(pcoords,weights);
+  vtkVoxel::InterpolationFunctions(pcoords,weights);
   //
   // Get the cell
   //
@@ -677,7 +691,7 @@ vtkCell *vtkRectilinearGrid::FindAndGetCell(double x[3],
 //----------------------------------------------------------------------------
 int vtkRectilinearGrid::GetCellType(vtkIdType vtkNotUsed(cellId))
 {
-  switch (this->DataDescription)
+  switch (this->GetDataDescription())
     {
     case VTK_EMPTY: 
       return VTK_EMPTY_CELL;
@@ -766,13 +780,13 @@ void vtkRectilinearGrid::SetExtent(int extent[6])
     {
     vtkErrorMacro (<< "Bad Extent, retaining previous values");
     }
-  
+
   if (description == VTK_UNCHANGED)
     {
     return;
     }
-  
-  this->DataDescription = description;
+
+  this->SetDataDescription(description);
   
   this->Modified();
   this->Dimensions[0] = extent[1] - extent[0] + 1;
@@ -909,8 +923,7 @@ void vtkRectilinearGrid::ShallowCopy(vtkDataObject *dataObject)
   if ( grid != NULL )
     {
     this->SetDimensions(grid->GetDimensions());
-    memcpy(this->Extent, grid->GetExtent(), 6*sizeof(int));
-    this->DataDescription = grid->DataDescription;
+    this->SetExtent(grid->GetExtent());
     
     this->SetXCoordinates(grid->GetXCoordinates());
     this->SetYCoordinates(grid->GetYCoordinates());
@@ -931,8 +944,7 @@ void vtkRectilinearGrid::DeepCopy(vtkDataObject *dataObject)
     {
     vtkDoubleArray *s;
     this->SetDimensions(grid->GetDimensions());
-    memcpy(this->Extent, grid->GetExtent(), 6*sizeof(int));
-    this->DataDescription = grid->DataDescription;
+    this->SetExtent(grid->GetExtent());
     
     s = vtkDoubleArray::New();
     s->DeepCopy(grid->GetXCoordinates());
@@ -1113,6 +1125,58 @@ vtkRectilinearGrid* vtkRectilinearGrid::GetData(vtkInformation* info)
 vtkRectilinearGrid* vtkRectilinearGrid::GetData(vtkInformationVector* v, int i)
 {
   return vtkRectilinearGrid::GetData(v->GetInformationObject(i));
+}
+
+//----------------------------------------------------------------------------
+void vtkRectilinearGrid::SetDataDescription(int desc)
+{
+  if (desc == this->DataDescription)
+    {
+    return;
+    }
+
+  this->DataDescription = desc;
+
+  if (this->Vertex)
+    {
+    this->Vertex->Delete();
+    this->Vertex = 0;
+    }
+  if (this->Line)
+    {
+    this->Line->Delete();
+    this->Line = 0;
+    }
+  if (this->Pixel)
+    {
+    this->Pixel->Delete();
+    this->Pixel = 0;
+    }
+  if (this->Voxel)
+    {
+    this->Voxel->Delete();
+    this->Voxel = 0;
+    }
+
+  switch(this->DataDescription)
+    {
+      case VTK_SINGLE_POINT:
+        this->Vertex = vtkVertex::New();
+        break;
+      case VTK_X_LINE:
+      case VTK_Y_LINE:
+      case VTK_Z_LINE:
+        this->Line = vtkLine::New();
+        break;
+      case VTK_XY_PLANE:
+      case VTK_YZ_PLANE:
+      case VTK_XZ_PLANE:
+        this->Pixel = vtkPixel::New();
+        break;
+      case VTK_XYZ_GRID:
+        this->Voxel = vtkVoxel::New();
+        break;
+    }
 }
 
 //----------------------------------------------------------------------------
