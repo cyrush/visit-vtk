@@ -715,8 +715,10 @@ IF (VTK_USE_MANGLED_MESA)
                  vtkMesaRepresentationPainter.cxx
                  vtkMesaScalarsToColorsPainter.cxx
                  vtkMesaTexture.cxx
-                 vtkXMesaRenderWindow.cxx
                 )
+    IF(VTK_USE_X)
+      SET(KitOpenGL_SRCS ${KitOpenGL_SRCS} vtkXMesaRenderWindow.cxx)
+    ENDIF(VTK_USE_X)
     SET(KitOpenGL_SRCS ${KitOpenGL_SRCS}
       vtkMesaFreeTypeTextMapper.cxx
     )
