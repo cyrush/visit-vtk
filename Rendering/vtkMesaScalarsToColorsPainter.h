@@ -13,12 +13,14 @@
 
 =========================================================================*/
 
+// .NAME vtkMesaScalarsToColorsPainter
+
 #ifndef __vtkMesaScalarsToColorsPainter_h
 #define __vtkMesaScalarsToColorsPainter_h
 
 #include "vtkScalarsToColorsPainter.h"
 
-class vtkOpenGLTexture;
+class vtkMesaTexture;
 
 class VTK_RENDERING_EXPORT vtkMesaScalarsToColorsPainter : 
   public vtkScalarsToColorsPainter
@@ -29,12 +31,13 @@ public:
     vtkScalarsToColorsPainter);
   void PrintSelf(ostream& os, vtkIndent indent);
   
-
   // Description:
   // Release any graphics resources that are being consumed by this mapper.
   // The parameter window could be used to determine which graphic
   // resources to release. 
   virtual void ReleaseGraphicsResources(vtkWindow *);
+  
+  virtual int GetPremultiplyColorsWithAlpha(vtkActor* actor);
 
   // Description:
   // Return the texture size limit, i.e. GL_MAX_TEXTURE_SIZE.
@@ -44,7 +47,7 @@ protected:
   vtkMesaScalarsToColorsPainter();
   ~vtkMesaScalarsToColorsPainter();
  
-  vtkOpenGLTexture* InternalColorTexture;
+  vtkMesaTexture* InternalColorTexture;
 
   // Description:
   // Generates rendering primitives of appropriate type(s). Multiple types 
@@ -52,7 +55,7 @@ protected:
   // Subclasses may override this method. Default implementation propagates
   // the call to Deletegate Painter, in any.
   virtual void RenderInternal(vtkRenderer* renderer, vtkActor* actor, 
-    unsigned long typeflags);
+                              unsigned long typeflags,bool forceCompileOnly);
 
 private:
   vtkMesaScalarsToColorsPainter(const vtkMesaScalarsToColorsPainter&); // Not implemented.

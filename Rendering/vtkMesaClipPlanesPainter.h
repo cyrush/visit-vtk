@@ -41,7 +41,7 @@ protected:
   // Uses the clipping planes to set up clipping regions.
   // typeflags are ignored by this painter.
   virtual void RenderInternal(vtkRenderer* renderer, vtkActor* actor, 
-    unsigned long typeflags);
+                              unsigned long typeflags, bool forceCompileOnly);
 private:
   vtkMesaClipPlanesPainter(const vtkMesaClipPlanesPainter&); // Not implemented.
   void operator=(const vtkMesaClipPlanesPainter&); // Not implemented.

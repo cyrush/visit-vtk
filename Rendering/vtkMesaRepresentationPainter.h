@@ -31,6 +31,17 @@ public:
   vtkTypeMacro(vtkMesaRepresentationPainter, vtkRepresentationPainter);
   void PrintSelf(ostream& os, vtkIndent indent);
 
+  // Description:
+  // This painter overrides GetTimeToDraw() to never pass the request to the
+  // delegate. This is done since this class may propagate a single render
+  // request multiple times to the delegate. In that case the time accumulation
+  // responsibility is borne by the painter causing the multiple rendering
+  // requests i.e. this painter itself.
+  virtual double GetTimeToDraw()
+    {
+    return this->TimeToDraw;
+    }
+
 protected:
   vtkMesaRepresentationPainter();
   ~vtkMesaRepresentationPainter();
@@ -38,7 +49,7 @@ protected:
   // Description:
   // Changes the polygon mode according to the representation.
   void RenderInternal(vtkRenderer* renderer, vtkActor* actor, 
-    unsigned long typeflags);
+                      unsigned long typeflags,bool forceCompileOnly);
 private:
   vtkMesaRepresentationPainter(const vtkMesaRepresentationPainter&); // Not implemented.
   void operator=(const vtkMesaRepresentationPainter&); // Not implemented.

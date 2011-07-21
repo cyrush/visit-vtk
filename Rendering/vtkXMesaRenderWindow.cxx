@@ -29,6 +29,7 @@
 #include "MangleMesaInclude/glx.h"
 #include "MangleMesaInclude/osmesa.h"
 
+#include "vtkRenderWindowInteractor.h"
 
 #define vtkXOpenGLRenderWindow vtkXMesaRenderWindow
 #define vtkOpenGLRenderWindow vtkMesaRenderWindow

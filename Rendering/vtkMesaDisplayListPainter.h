@@ -30,29 +30,32 @@ public:
   void PrintSelf(ostream& os, vtkIndent indent);
 
 
+
   // Description:
   // Release any graphics resources that are being consumed by this mapper.
   // The parameter window could be used to determine which graphic
   // resources to release. In this case, releases the display lists.
   virtual void ReleaseGraphicsResources(vtkWindow *);
+//BTX
 protected:
   vtkMesaDisplayListPainter();
   ~vtkMesaDisplayListPainter();
 
-  unsigned int ListIds[4];
-  vtkTimeStamp BuildTimes[4];
-
-  void ReleaseList(int index);
 
   // Description:
   // If not using ImmediateModeRendering, this will build a display list,
   // if outdated and use the display list.
   virtual void RenderInternal(vtkRenderer* renderer, vtkActor* actor, 
-    unsigned long typeflags);
+                              unsigned long typeflags,
+                              bool forceCompileOnly);
 
 private:
   vtkMesaDisplayListPainter(const vtkMesaDisplayListPainter&); // Not implemented.
   void operator=(const vtkMesaDisplayListPainter&); // Not implemented.
+
+  class vtkInternals;
+  vtkInternals* Internals;
+//ETX
 };
 
 #endif

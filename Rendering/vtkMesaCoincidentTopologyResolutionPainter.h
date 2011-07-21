@@ -41,7 +41,13 @@ protected:
   // DelegatePainter is in sync with this painter i.e. UpdatePainter()
   // has been called.
   virtual void RenderInternal(vtkRenderer* renderer, vtkActor* actor, 
-    unsigned long typeflags);
+                              unsigned long typeflags, bool forceCompileOnly);
+
+  void RenderPolygonOffset(vtkRenderer *renderer, vtkActor *actor,
+    unsigned long typeflags, bool forceCompileOnly);
+  void RenderShiftZBuffer(vtkRenderer *renderer, vtkActor *actor,
+    unsigned long typeflags, bool forceCompileOnly);
+
 private:
   vtkMesaCoincidentTopologyResolutionPainter(
     const vtkMesaCoincidentTopologyResolutionPainter&); // Not implemented.

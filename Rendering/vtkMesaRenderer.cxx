@@ -27,11 +27,16 @@
 #include "vtkMesaLight.h"
 #include "vtkCuller.h"
 
+#include <vtkstd/list>
 
 // make sure this file is included before the #define takes place
 // so we don't get two vtkMesaRenderer classes defined.
 #include "vtkOpenGLRenderer.h"
 #include "vtkMesaRenderer.h"
+
+// List of rgba layers, id are 2D rectangle texture Ids.
+
+#define vtkOpenGLRendererLayerList vtkMesaRendererLayerList
 
 // Make sure vtkMesaRenderer is a copy of vtkOpenGLRenderer
 // with vtkOpenGLRenderer replaced with vtkMesaRenderer
@@ -41,6 +46,7 @@
 
 vtkStandardNewMacro(vtkMesaRenderer);
 
+/*
 vtkCamera *vtkMesaRenderer::MakeCamera()
 {
   return vtkMesaCamera::New();
@@ -50,3 +56,4 @@ vtkLight *vtkMesaRenderer::MakeLight()
 {
   return vtkMesaLight::New();
 }
+*/

@@ -90,7 +90,11 @@ public:
   // Description:
   // Make this window the current OpenGL context.
   void MakeCurrent();
-  
+
+  // Description:
+  // Tells if this window is the current OpenGL context for the calling thread.
+  virtual bool IsCurrent();
+
   // Description:
   // If called, allow MakeCurrent() to skip cache-check when called.
   // MakeCurrent() reverts to original behavior of cache-checking     
@@ -226,7 +230,7 @@ protected:
   Cursor XCSizeNW;
   Cursor XCSizeSE;
   Cursor XCSizeSW;
-
+  Cursor XCHand;
 
   void CreateAWindow();
   void DestroyWindow();

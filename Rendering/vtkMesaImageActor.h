@@ -57,11 +57,11 @@ protected:
 
   vtkTimeStamp   LoadTime;
   long          Index;
-  static   long GlobalIndex;
   vtkRenderWindow *RenderWindow;   // RenderWindow used for previous render
   double Coords[12];
   double TCoords[8];
   int TextureSize[2];
+  int TextureBytesPerPixel;
   
   // Non-recursive internal method
   void InternalRender(vtkRenderer *ren);

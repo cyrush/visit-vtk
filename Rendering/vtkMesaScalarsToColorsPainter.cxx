@@ -18,6 +18,8 @@
 #include "MangleMesaInclude/gl_mangle.h"
 #include "MangleMesaInclude/gl.h"
 
+#include "vtkMesaTexture.h"
+
 #include <math.h>
 #include "vtkToolkits.h"
 
@@ -25,6 +27,9 @@
 // so we don't get two vtkMesaScalarsToColorsPainter classes defined.
 #include "vtkOpenGLScalarsToColorsPainter.h"
 #include "vtkMesaScalarsToColorsPainter.h"
+
+#define vtkOpenGLTexture vtkMesaTexture
+#define __vtkOpenGLTexture_h
 
 // Make sure vtkMesaScalarsToColorsPainter is a copy of vtkOpenGLScalarsToColorsPainter
 // with vtkOpenGLScalarsToColorsPainter replaced with vtkMesaScalarsToColorsPainter

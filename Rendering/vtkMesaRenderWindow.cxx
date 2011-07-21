@@ -25,3 +25,32 @@
 #define vtkOpenGLRenderWindow vtkMesaRenderWindow
 #include "vtkOpenGLRenderWindow.cxx"
 #undef vtkOpenGLRenderWindow
+
+void vtkTextureUnitManager::SetContext(vtkMesaRenderWindow *context)
+{
+  if(this->Context!=context)
+    {
+    if(this->Context!=0)
+      {
+      this->DeleteTable();
+      }
+    this->Context=context;
+    if(this->Context!=0)
+      {
+      vtkOpenGLHardwareSupport *info=context->GetHardwareSupport();
+      this->NumberOfTextureUnits=info->GetNumberOfTextureUnits();
+      if(this->NumberOfTextureUnits>0)
+        {
+        this->TextureUnits=new bool[this->NumberOfTextureUnits];
+        size_t i=0;
+        size_t c=this->NumberOfTextureUnits;
+        while(i<c)
+          {
+          this->TextureUnits[i]=false;
+          ++i;
+          }
+        }
+      }
+    this->Modified();
+    }
+}

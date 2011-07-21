@@ -23,6 +23,9 @@
 
 #include "vtkRenderer.h"
 
+class vtkMesaRendererLayerList; // Pimpl
+class vtkShaderProgram2;
+
 class VTK_RENDERING_EXPORT vtkMesaRenderer : public vtkRenderer
 {
 protected:
@@ -35,8 +38,15 @@ public:
 
   // Description:
   // Concrete open gl render method.
-  void DeviceRender(void); 
-
+  void DeviceRender(void);
+  
+  // Description:
+  // Render translucent polygonal geometry. Default implementation just call
+  // UpdateTranslucentPolygonalGeometry().
+  // Subclasses of vtkRenderer that can deal with depth peeling must
+  // override this method.
+  virtual void DeviceRenderTranslucentPolygonalGeometry();
+  
   // Description:
   // Internal method temporarily removes lights before reloading them
   // into graphics pipeline.
@@ -48,20 +58,28 @@ public:
   // Ask lights to load themselves into graphics pipeline.
   int UpdateLights(void);
   
-
+  // Description:
+  // Is rendering at translucent geometry stage using depth peeling and
+  // rendering a layer other than the first one? (Boolean value)
+  // If so, the uniform variables UseTexture and Texture can be set.
+  // (Used by vtkOpenGLProperty or vtkOpenGLTexture)
+  int GetDepthPeelingHigherLayer();
   
-  // Create a vtkMesaCamera, will be used by the super class
-  // to create the correct camera object.
-  virtual vtkCamera* MakeCamera();
-  
-  // Create a vtkMesaLight, will be used by the super class
-  // to create the correct light object.
-  virtual vtkLight* MakeLight();
+  //BTX
+  // Description:
+  // 
+  vtkGetObjectMacro(ShaderProgram,vtkShaderProgram2);
+  virtual void SetShaderProgram(vtkShaderProgram2 *program);
+  //ETX
   
 protected:
   vtkMesaRenderer();
   ~vtkMesaRenderer();
 
+  // Description:
+  // Check the compilation status of some fragment shader source.
+  void CheckCompilation(unsigned int fragmentShader);
+  
   //BTX
   // Picking functions to be implemented by sub-classes
   virtual void DevicePickRender();
@@ -76,6 +94,69 @@ protected:
   class vtkGLPickInfo* PickInfo;
   //ETX
   double PickedZ;
+ 
+  // Description:
+  // Render a peel layer. If there is no more GPU RAM to save the texture,
+  // return false otherwise returns true. Also if layer==0 and no prop have
+  // been rendered (there is no translucent geometry), it returns false.
+  // \pre positive_layer: layer>=0
+  int RenderPeel(int layer);
+  
+  //BTX
+  friend class vtkMesaProperty;
+  friend class vtkMesaTexture;
+  friend class vtkMesaImageSliceMapper;
+  friend class vtkMesaImageResliceMapper;
+  //ETX
+  
+  // Description:
+  // Access to the OpenGL program shader uniform variable "useTexture" from the
+  // vtkOpenGLProperty or vtkOpenGLTexture.
+  int GetUseTextureUniformVariable();
+  
+  // Description:
+  // Access to the OpenGL program shader uniform variable "texture" from the
+  // vtkOpenGLProperty or vtkOpenGLTexture.
+  int GetTextureUniformVariable();
+  
+  // Description:
+  // This flag is on if the current OpenGL context supports extensions
+  // required by the depth peeling technique.
+  int DepthPeelingIsSupported;
+  
+  // Description:
+  // This flag is on once the OpenGL extensions required by the depth peeling
+  // technique have been checked.
+  int DepthPeelingIsSupportedChecked;
+  
+  // Description:
+  // Used by the depth peeling technique to store the transparency layers.
+  vtkMesaRendererLayerList *LayerList;
+  
+  unsigned int OpaqueLayerZ;
+  unsigned int TransparentLayerZ;
+  unsigned int ProgramShader;
+  
+  // Description:
+  // Cache viewport values for depth peeling.
+  int ViewportX;
+  int ViewportY;
+  int ViewportWidth;
+  int ViewportHeight;
+  
+  // Description:
+  // Actual depth format: vtkgl::DEPTH_COMPONENT16_ARB
+  // or vtkgl::DEPTH_COMPONENT24_ARB
+  unsigned int DepthFormat;
+  
+  // Is rendering at translucent geometry stage using depth peeling and
+  // rendering a layer other than the first one? (Boolean value)
+  // If so, the uniform variables UseTexture and Texture can be set.
+  // (Used by vtkOpenGLProperty or vtkOpenGLTexture)
+  int DepthPeelingHigherLayer;
+  
+  vtkShaderProgram2 *ShaderProgram;
+
 private:
   vtkMesaRenderer(const vtkMesaRenderer&);  // Not implemented.
   void operator=(const vtkMesaRenderer&);  // Not implemented.
