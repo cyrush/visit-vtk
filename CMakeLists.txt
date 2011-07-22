@@ -687,8 +687,13 @@ ENDIF(NOT VTK_INSTALL_NO_DEVELOPMENT)
 #-----------------------------------------------------------------------------
 # Dispatch the build into the proper subdirectories.
 
+OPTION(VTK_USE_EXODUS "Enable Exodus support." ON)
+MARK_AS_ADVANCED(VTK_USE_EXODUS)
 
-SET(VTK_HAS_EXODUS 1)
+SET(VTK_HAS_EXODUS 0)
+IF(VTK_USE_EXODUS)
+  SET(VTK_HAS_EXODUS 1)
+ENDIF(VTK_USE_EXODUS)
 
 #-----------------------------------------------------------------------------
 # Provide a few configuration options.
