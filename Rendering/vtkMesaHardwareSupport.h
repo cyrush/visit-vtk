@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Visualization Toolkit
-  Module:    vtkOpenGLHardwareSupport.h
+  Module:    vtkMesaHardwareSupport.h
 
   Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
   All rights reserved.
@@ -12,33 +12,33 @@
      PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-// .NAME vtkOpenGLHardwareSupport - OpenGL rendering window
+// .NAME vtkMesaHardwareSupport - Mesa rendering window
 // .SECTION Description
-// vtkOpenGLHardwareSupport is an implementation of methods used
+// vtkMesaHardwareSupport is an implementation of methods used
 // to query OpenGL and the hardware of what kind of graphics support
 // is available.
-
-#ifndef __vtkOpenGLHardwareSupport_h
-#define __vtkOpenGLHardwareSupport_h
+#ifndef __vtkMesaHardwareSupport_h
+#define __vtkMesaHardwareSupport_h
 
 #include "vtkHardwareSupport.h"
 
-class VTK_RENDERING_EXPORT vtkOpenGLHardwareSupport : public vtkHardwareSupport
+class VTK_RENDERING_EXPORT vtkMesaHardwareSupport : public vtkHardwareSupport
 {
 public:
-  vtkTypeMacro(vtkOpenGLHardwareSupport,vtkHardwareSupport);
-  static vtkOpenGLHardwareSupport *New();
+  vtkTypeMacro(vtkMesaHardwareSupport,vtkHardwareSupport);
   void PrintSelf(ostream& os, vtkIndent indent);
 
+  static vtkMesaHardwareSupport *New();
+
 protected:
-  vtkOpenGLHardwareSupport();
-  virtual ~vtkOpenGLHardwareSupport() {}
+  vtkMesaHardwareSupport();
+  virtual ~vtkMesaHardwareSupport() {}
 
   virtual int MaxTextureUnits() const;
   virtual int MaxCombinedTextureImageUnits() const;
   
 private:
-  vtkOpenGLHardwareSupport(const vtkOpenGLHardwareSupport&);  // Not implemented.
-  void operator=(const vtkOpenGLHardwareSupport&);  // Not implemented.
+  vtkMesaHardwareSupport(const vtkMesaHardwareSupport&);  // Not implemented.
+  void operator=(const vtkMesaHardwareSupport&);  // Not implemented.
 };
 #endif

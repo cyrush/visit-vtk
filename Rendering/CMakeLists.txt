@@ -71,6 +71,7 @@ SET( Kit_SRCS
   vtkGraphToGlyphs.cxx
   vtkHardwareSelector.cxx
   vtkHardwareSelectionPolyDataPainter.cxx
+  vtkHardwareSupport.cxx
   vtkHierarchicalPolyDataMapper.cxx
   vtkImageActor.cxx
   vtkImageMapper.cxx
@@ -292,6 +293,7 @@ SET_SOURCE_FILES_PROPERTIES(
   vtkExporter
   vtkExtensionManager
   vtkGPUInfoList
+  vtkHardwareSupport
   vtkImageProcessingPass
   vtkImporter
   vtkInteractorObserver
