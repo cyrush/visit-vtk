@@ -43,10 +43,11 @@
 #endif
 
 #include "vtkCommand.h"
+#include "vtkGraphicsFactory.h"
 #include "vtkIdList.h"
 #include "vtkObjectFactory.h"
 #include "vtkRendererCollection.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 
 #include "vtksys/SystemTools.hxx"
 
@@ -857,7 +858,8 @@ void vtkXOpenGLRenderWindow::CreateOffScreenWindow(int width, int height)
         if(!this->Internal->PbufferContextId)
           {
           // Load GLX 1.3
-          vtkOpenGLExtensionManager *manager=vtkOpenGLExtensionManager::New();
+          vtkExtensionManager *manager = vtkExtensionManager::SafeDownCast(
+            vtkGraphicsFactory::CreateInstance("vtkExtensionManager"));
           int loaded = vtkgl::LoadExtension("GLX_VERSION_1_3", manager);
           manager->Delete();
 

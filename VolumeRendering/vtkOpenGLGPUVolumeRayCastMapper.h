@@ -28,7 +28,7 @@
 
 class vtkVolume;
 class vtkRenderer;
-class vtkOpenGLExtensionManager;
+class vtkExtensionManager;
 class vtkMatrix4x4;
 class vtkUnsupportedRequiredExtensionsStringStream; // Pimpl
 class vtkMapDataArrayTextureId; // Pimpl
@@ -111,7 +111,7 @@ protected:
   // extensions.
   // \pre extensions_exist: extensions!=0
   // \pre extensionName_exists: extensionName!=0
-  int TestRequiredExtension(vtkOpenGLExtensionManager *extensions,
+  int TestRequiredExtension(vtkExtensionManager *extensions,
                             const char *extensionName);
 
   // Description:

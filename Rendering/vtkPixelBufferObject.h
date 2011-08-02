@@ -31,7 +31,7 @@
 #include "vtkWeakPointer.h" // needed for vtkWeakPointer.
 
 class vtkRenderWindow;
-class vtkOpenGLExtensionManager;
+class vtkExtensionManager;
 
 class VTK_RENDERING_EXPORT vtkPixelBufferObject : public vtkObject
 {
@@ -251,7 +251,7 @@ protected:
   // Description:
   // Loads all required OpenGL extensions. Must be called every time a new
   // context is set.
-  bool LoadRequiredExtensions(vtkOpenGLExtensionManager* mgr);
+  bool LoadRequiredExtensions(vtkExtensionManager* mgr);
 
   // Description:
   // Create the pixel buffer object.

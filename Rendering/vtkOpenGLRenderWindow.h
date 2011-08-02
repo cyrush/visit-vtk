@@ -27,7 +27,7 @@
 #include "vtkOpenGL.h" // Needed for GLuint.
 
 class vtkIdList;
-class vtkOpenGLExtensionManager;
+class vtkExtensionManager;
 class vtkOpenGLHardwareSupport;
 class vtkTextureUnitManager;
 
@@ -267,11 +267,10 @@ private:
   vtkOpenGLRenderWindow(const vtkOpenGLRenderWindow&);  // Not implemented.
   void operator=(const vtkOpenGLRenderWindow&);  // Not implemented.
 
-  void SetExtensionManager(vtkOpenGLExtensionManager*);
+  void SetExtensionManager(vtkExtensionManager*);
   void SetHardwareSupport(vtkOpenGLHardwareSupport * renderWindow);
 
-  vtkOpenGLExtensionManager* ExtensionManager;
+  vtkExtensionManager* ExtensionManager;
   vtkOpenGLHardwareSupport* HardwareSupport;
 };
-
 #endif

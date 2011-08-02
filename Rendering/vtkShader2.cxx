@@ -18,7 +18,7 @@
 #include <vtkgl.h>
 #include "vtkUniformVariables.h"
 #include "vtkOpenGLRenderWindow.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 
 GLenum vtkShaderTypeVTKToGL[5]={
   vtkgl::VERTEX_SHADER, // VTK_SHADER_TYPE_VERTEX=0
@@ -115,7 +115,7 @@ bool vtkShader2::IsSupported(vtkOpenGLRenderWindow *context)
 {
   assert("pre: context_exists" && context!=0);
   
-  vtkOpenGLExtensionManager *e=context->GetExtensionManager();
+  vtkExtensionManager *e=context->GetExtensionManager();
   return e->ExtensionSupported("GL_VERSION_2_0") ||
     (e->ExtensionSupported("GL_ARB_shading_language_100") &&
      e->ExtensionSupported("GL_ARB_shader_objects") &&
@@ -128,7 +128,7 @@ bool vtkShader2::LoadExtensions(vtkOpenGLRenderWindow *context)
 {
   assert("pre: context_exists" && context!=0);
   
-  vtkOpenGLExtensionManager *e=context->GetExtensionManager();
+  vtkExtensionManager *e=context->GetExtensionManager();
   
   bool result=false;
   if(e->ExtensionSupported("GL_VERSION_2_0"))
@@ -165,7 +165,7 @@ void vtkShader2::SetContext(vtkOpenGLRenderWindow *context)
       this->ExtensionsLoaded=this->LoadExtensions(this->Context);
       if(this->ExtensionsLoaded)
         {
-        vtkOpenGLExtensionManager *e=this->Context->GetExtensionManager();
+        vtkExtensionManager *e=this->Context->GetExtensionManager();
         bool supportGeometryShaderARB=e->ExtensionSupported("GL_ARB_geometry_shader4")==1;
         this->SupportGeometryShader=supportGeometryShaderARB
           || e->ExtensionSupported("GL_EXT_geometry_shader4")==1;

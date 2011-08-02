@@ -16,7 +16,7 @@
 
 #include "vtkPixelBufferObject.h"
 #include "vtkObjectFactory.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkOpenGLRenderWindow.h"
 
 #include "vtkgl.h"
@@ -180,7 +180,7 @@ bool vtkTextureObject::IsSupported(vtkRenderWindow* win)
   vtkOpenGLRenderWindow* renWin = vtkOpenGLRenderWindow::SafeDownCast(win);
   if (renWin)
     {
-    vtkOpenGLExtensionManager* mgr = renWin->GetExtensionManager();
+    vtkExtensionManager* mgr = renWin->GetExtensionManager();
     
     bool gl12=mgr->ExtensionSupported("GL_VERSION_1_2")==1;
     bool gl13=mgr->ExtensionSupported("GL_VERSION_1_3")==1;
@@ -198,7 +198,7 @@ bool vtkTextureObject::IsSupported(vtkRenderWindow* win)
 }
 
 //----------------------------------------------------------------------------
-bool vtkTextureObject::LoadRequiredExtensions(vtkOpenGLExtensionManager* mgr)
+bool vtkTextureObject::LoadRequiredExtensions(vtkExtensionManager* mgr)
 {
   // Optional extension, requires GeForce8
   this->SupportsTextureInteger =

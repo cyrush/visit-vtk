@@ -15,7 +15,7 @@
 #include "vtkPixelBufferObject.h"
 
 #include "vtkObjectFactory.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkOpenGLRenderWindow.h"
 #include "vtkRenderWindow.h"
 
@@ -87,7 +87,7 @@ bool vtkPixelBufferObject::IsSupported(vtkRenderWindow* win)
   vtkOpenGLRenderWindow* renWin = vtkOpenGLRenderWindow::SafeDownCast(win);
   if (renWin)
     {
-    vtkOpenGLExtensionManager* mgr = renWin->GetExtensionManager();
+    vtkExtensionManager* mgr = renWin->GetExtensionManager();
     
     bool vbo=mgr->ExtensionSupported("GL_VERSION_1_5") ||
       mgr->ExtensionSupported("GL_ARB_vertex_buffer_object");
@@ -104,7 +104,7 @@ bool vtkPixelBufferObject::IsSupported(vtkRenderWindow* win)
 
 //----------------------------------------------------------------------------
 bool vtkPixelBufferObject::LoadRequiredExtensions(
-  vtkOpenGLExtensionManager* mgr)
+  vtkExtensionManager* mgr)
 {
   bool gl15=mgr->ExtensionSupported("GL_VERSION_1_5")==1;
   bool gl21=mgr->ExtensionSupported("GL_VERSION_2_1")==1;

@@ -31,7 +31,7 @@
 
 class vtkRenderWindow;
 class vtkTextureObject;
-class vtkOpenGLExtensionManager;
+class vtkExtensionManager;
 
 class VTK_RENDERING_EXPORT vtkFrameBufferObject : public vtkObject
 {
@@ -210,7 +210,7 @@ protected:
 
   // Description:
   // Load all necessary extensions.
-  bool LoadRequiredExtensions(vtkOpenGLExtensionManager *manager);
+  bool LoadRequiredExtensions(vtkExtensionManager *manager);
 
   vtkstd::vector<unsigned int> UserZSlices;
   vtkstd::vector<vtkSmartPointer<vtkTextureObject> > UserColorBuffers;

@@ -30,7 +30,7 @@
 #include "vtkLight.h"
 #include "vtkCamera.h"
 #include "vtkMath.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkgl.h"
 #include "vtkOpenGLRenderWindow.h"
 
@@ -1779,7 +1779,7 @@ int  vtkOpenGLVolumeTextureMapper3D::IsRenderSupported(
 void vtkOpenGLVolumeTextureMapper3D::Initialize(vtkRenderer *r)
 {
   this->Initialized = 1;
-  vtkOpenGLExtensionManager *extensions=static_cast<vtkOpenGLRenderWindow *>(
+  vtkExtensionManager *extensions=static_cast<vtkOpenGLRenderWindow *>(
     r->GetRenderWindow())->GetExtensionManager();
   
   int supports_texture3D=extensions->ExtensionSupported( "GL_VERSION_1_2" );
@@ -2042,7 +2042,7 @@ void vtkOpenGLVolumeTextureMapper3D::PrintSelf(ostream& os, vtkIndent indent)
   os << indent << "Initialized " << this->Initialized << endl;
   if(this->RenderWindow!=0)
     {
-    vtkOpenGLExtensionManager *extensions=
+    vtkExtensionManager *extensions=
       static_cast<vtkOpenGLRenderWindow *>(this->RenderWindow)
       ->GetExtensionManager();
 

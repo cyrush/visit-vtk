@@ -26,6 +26,7 @@
 #include "vtkOpenGLClipPlanesPainter.h"
 #include "vtkOpenGLCoincidentTopologyResolutionPainter.h"
 #include "vtkOpenGLDisplayListPainter.h"
+#include "vtkOpenGLExtensionManager.h"
 #include "vtkOpenGLGlyph3DMapper.h"
 #include "vtkOpenGLImageActor.h"
 #include "vtkOpenGLLight.h"
@@ -81,6 +82,7 @@
 #include "vtkMesaClipPlanesPainter.h"
 #include "vtkMesaCoincidentTopologyResolutionPainter.h"
 #include "vtkMesaDisplayListPainter.h"
+#include "vtkMesaExtensionManager.h"
 #include "vtkMesaImageActor.h"
 #include "vtkMesaLight.h"
 #include "vtkMesaLightingPainter.h"
@@ -202,6 +204,19 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
         }
 #endif
       return vtkXOpenGLRenderWindow::New();
+      }
+    else if(strcmp(vtkclassname, "vtkExtensionManager") == 0)
+      {
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
+        if(vtkGraphicsFactory::UseMesaClasses)
+          {
+          return vtkMesaExtensionManager::New();
+          }
+        else
+#endif
+          {
+          return vtkOpenGLExtensionManager::New();
+          }
       }
     }
   if ( !vtkGraphicsFactory::GetOffScreenOnlyMode() )

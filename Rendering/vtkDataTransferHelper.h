@@ -23,7 +23,7 @@
 //  structured data to/from the GPU.
 //
 // .SECTION see also
-//  vtkPixelBufferObject vtkTextureObject vtkOpenGLExtensionManager 
+//  vtkPixelBufferObject vtkTextureObject vtkExtensionManager 
 
 #ifndef __vtkDataTransferHelper_h
 #define __vtkDataTransferHelper_h
@@ -35,7 +35,7 @@
 class vtkDataArray;
 class vtkPixelBufferObject;
 class vtkTextureObject;
-class vtkOpenGLExtensionManager;
+class vtkExtensionManager;
 class vtkRenderWindow;
 
 class VTK_RENDERING_EXPORT vtkDataTransferHelper : public vtkObject
@@ -193,7 +193,7 @@ protected:
 
   // Description:
   // Load all necessary extensions.
-  bool LoadRequiredExtensions(vtkOpenGLExtensionManager*);
+  bool LoadRequiredExtensions(vtkExtensionManager*);
 
   int CPUExtent[6];
   int GPUExtent[6];

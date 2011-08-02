@@ -14,6 +14,7 @@
 =========================================================================*/
 #include "vtkOpenGLGPUVolumeRayCastMapper.h"
 
+#include "vtkGraphicsFactory.h"
 #include "vtkObjectFactory.h"
 #include "vtkVolume.h"
 #include "vtkRenderer.h"
@@ -28,7 +29,7 @@
 #include "vtkColorTransferFunction.h"
 #include "vtkPiecewiseFunction.h"
 
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkgl.h"
 
 #ifndef VTK_IMPLEMENT_MESA_CXX
@@ -2092,7 +2093,7 @@ int vtkOpenGLGPUVolumeRayCastMapper::IsRenderSupported(
 // \pre extensionName_exists: extensionName!=0
 //-----------------------------------------------------------------------------
 int vtkOpenGLGPUVolumeRayCastMapper::TestRequiredExtension(
-  vtkOpenGLExtensionManager *extensions,
+  vtkExtensionManager *extensions,
   const char *extensionName)
 {
   assert("pre: extensions_exist" && extensions!=0);
@@ -2173,7 +2174,8 @@ void vtkOpenGLGPUVolumeRayCastMapper::LoadExtensions(
     }
 
   // Create an extension manager
-  vtkOpenGLExtensionManager *extensions=vtkOpenGLExtensionManager::New();
+  vtkExtensionManager *extensions = vtkExtensionManager::SafeDownCast(
+    vtkGraphicsFactory::CreateInstance("vtkExtensionManager"));
   extensions->SetRenderWindow(window);
 
   // GL_ARB_draw_buffers requires OpenGL 1.3, so we must have OpenGL 1.3

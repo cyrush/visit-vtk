@@ -15,13 +15,14 @@ PURPOSE.  See the above copyright notice for more information.
 #include "vtkOpenGLRenderer.h"
 
 #include "vtkCuller.h"
+#include "vtkGraphicsFactory.h"
 #include "vtkLightCollection.h"
 #include "vtkObjectFactory.h"
 #include "vtkOpenGLCamera.h"
 #include "vtkOpenGLLight.h"
 #include "vtkOpenGLProperty.h"
 #include "vtkRenderWindow.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkgl.h" // vtkgl namespace
 #include "vtkImageImport.h"
 #include "vtkPNGWriter.h"
@@ -266,7 +267,8 @@ void vtkOpenGLRenderer::DeviceRenderTranslucentPolygonalGeometry()
     if(!this->DepthPeelingIsSupportedChecked)
       {
       this->DepthPeelingIsSupportedChecked=1;
-      vtkOpenGLExtensionManager *extensions=vtkOpenGLExtensionManager::New();
+      vtkExtensionManager *extensions = vtkExtensionManager::SafeDownCast(
+        vtkGraphicsFactory::CreateInstance("vtkExtensionManager"));
       extensions->SetRenderWindow(this->RenderWindow);
 
       int supports_GL_1_3=extensions->ExtensionSupported("GL_VERSION_1_3");

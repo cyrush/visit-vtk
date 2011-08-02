@@ -650,7 +650,7 @@ static void WriteCode(ostream &hfile, ostream &cxxfile)
         << "#define GLX_GLXEXT_LEGACY" << endl
         << "#include <GL/glx.h>" << endl
         << "#endif" << endl << endl;
-  hfile << "class vtkOpenGLExtensionManager;" << endl << endl;
+  hfile << "class vtkExtensionManager;" << endl << endl;
   hfile << "#ifndef APIENTRY" << endl
         << "#define APIENTRY" << endl
         << "#define VTKGL_APIENTRY_DEFINED" << endl
@@ -692,7 +692,7 @@ static void WriteCode(ostream &hfile, ostream &cxxfile)
   WriteClassDeclarationGuts(hfile, Extension::GL);
   hfile << endl << "  // Method to load functions for a particular extension.";
   hfile << endl << "  int LoadExtension(const char *name, "
-        << "vtkOpenGLExtensionManager *manager);" << endl;
+        << "vtkExtensionManager *manager);" << endl;
   hfile << endl << "  // Strings containing special version extensions.";
   hfile << endl << "  const char *GLVersionExtensionsString();" << endl;
   hfile << endl << "  const char *GLXVersionExtensionsString();" << endl;
@@ -734,7 +734,7 @@ static void WriteCode(ostream &hfile, ostream &cxxfile)
 
   // Write data for C++ file --------------------------------------------
   cxxfile << "#include \"vtkgl.h\"" << endl;
-  cxxfile << "#include \"vtkOpenGLExtensionManager.h\"" << endl << endl;
+  cxxfile << "#include \"vtkExtensionManager.h\"" << endl << endl;
 
   // Write function pointer declarations.
   WriteFunctionPointerDeclarations(cxxfile, Extension::GL);
@@ -744,7 +744,7 @@ static void WriteCode(ostream &hfile, ostream &cxxfile)
   vtkstd::list<Extension>::iterator iextension;
 
   // Write function to load function pointers.
-  cxxfile << "int vtkgl::LoadExtension(const char *name, vtkOpenGLExtensionManager *manager)" << endl
+  cxxfile << "int vtkgl::LoadExtension(const char *name, vtkExtensionManager *manager)" << endl
           << "{" << endl;
   for (iextension = extensions.begin();
        iextension != extensions.end(); iextension++)

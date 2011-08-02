@@ -20,7 +20,8 @@
 
 #include "vtkObjectFactory.h"
 #include "vtkToolkits.h"  // for VTK_USE_GL2PS
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
+#include "vtkGraphicsFactory.h"
 #include "vtkOpenGLTexture.h"
 #include "vtkTexture.h"
 
@@ -719,7 +720,8 @@ void vtkOpenGLProperty::LoadMultiTexturingExtensions(vtkRenderer* ren)
 {
   if ( ! vtkgl::MultiTexCoord2d || ! vtkgl::ActiveTexture )
     {
-    vtkOpenGLExtensionManager* extensions = vtkOpenGLExtensionManager::New();
+    vtkExtensionManager* extensions = vtkExtensionManager::SafeDownCast(
+      vtkGraphicsFactory::CreateInstance("vtkExtensionManager"));
     extensions->SetRenderWindow( ren->GetRenderWindow() );
 
     // multitexture is a core feature of OpenGL 1.3.

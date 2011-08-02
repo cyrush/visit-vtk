@@ -28,8 +28,9 @@
 #include "vtkCollectionIterator.h"
 #include "vtkGLSLShaderDeviceAdapter.h"
 #include "vtkGLSLShader.h"
+#include "vtkGraphicsFactory.h"
 #include "vtkObjectFactory.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkProperty.h"
 #include "vtkRenderer.h"
 #include "vtkTexture.h"
@@ -262,8 +263,9 @@ void vtkGLSLShaderProgram::LoadExtensions( vtkRenderWindow* renWin )
     return;
     }
 
-  // Load extensions using vtkOpenGLExtensionManager
-  vtkOpenGLExtensionManager *extensions = vtkOpenGLExtensionManager::New();
+  // Load extensions using vtkExtensionManager
+  vtkExtensionManager *extensions = vtkExtensionManager::SafeDownCast(
+    vtkGraphicsFactory::CreateInstance("vtkExtensionManager"));
   // How can I get access to the vtkRenderWindow from here?
   extensions->SetRenderWindow( renWin );
   if(extensions->ExtensionSupported("GL_VERSION_2_0")

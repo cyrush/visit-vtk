@@ -21,7 +21,7 @@ PURPOSE.  See the above copyright notice for more information.
 #include "vtkRenderer.h"
 #include "vtkOpenGLRenderer.h"
 #include "vtkOpenGLRenderWindow.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkgl.h"
 #include <vtkstd/list>
 #include "vtkShaderProgram2.h"
@@ -471,7 +471,7 @@ void vtkDepthPeelingPass::CheckSupport(vtkOpenGLRenderWindow *w)
     {
       this->IsChecked=true;
       this->CheckTime.Modified();
-      vtkOpenGLExtensionManager *extensions=w->GetExtensionManager();
+      vtkExtensionManager *extensions=w->GetExtensionManager();
       
       bool supports_GL_1_3=extensions->ExtensionSupported("GL_VERSION_1_3")==1;
       bool supports_GL_1_4=extensions->ExtensionSupported("GL_VERSION_1_4")==1;

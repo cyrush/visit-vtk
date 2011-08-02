@@ -16,7 +16,7 @@
 
 #include "vtkTextureObject.h"
 #include "vtkObjectFactory.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkOpenGLRenderWindow.h"
 
 #include "vtkgl.h"
@@ -68,7 +68,7 @@ bool vtkFrameBufferObject::IsSupported(vtkRenderWindow *win)
   vtkOpenGLRenderWindow *renWin=vtkOpenGLRenderWindow::SafeDownCast(win);
   if(renWin!=0)
     {
-      vtkOpenGLExtensionManager *mgr=renWin->GetExtensionManager();
+      vtkExtensionManager *mgr=renWin->GetExtensionManager();
       
       bool gl12=mgr->ExtensionSupported("GL_VERSION_1_2")==1;
       bool gl14=mgr->ExtensionSupported("GL_VERSION_1_4")==1;
@@ -94,9 +94,9 @@ bool vtkFrameBufferObject::IsSupported(vtkRenderWindow *win)
 
 //----------------------------------------------------------------------------
 bool vtkFrameBufferObject::LoadRequiredExtensions(
-                                              vtkOpenGLExtensionManager*mgr)
+                                              vtkExtensionManager*mgr)
 {
-  // Load extensions using vtkOpenGLExtensionManager
+  // Load extensions using vtkExtensionManager
   
   bool gl12=mgr->ExtensionSupported("GL_VERSION_1_2")==1;
   bool gl14=mgr->ExtensionSupported("GL_VERSION_1_4")==1;

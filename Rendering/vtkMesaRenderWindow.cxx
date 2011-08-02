@@ -37,7 +37,7 @@ void vtkTextureUnitManager::SetContext(vtkMesaRenderWindow *context)
     this->Context=context;
     if(this->Context!=0)
       {
-      vtkOpenGLHardwareSupport *info=context->GetHardwareSupport();
+      vtkHardwareSupport *info=context->GetHardwareSupport();
       this->NumberOfTextureUnits=info->GetNumberOfTextureUnits();
       if(this->NumberOfTextureUnits>0)
         {

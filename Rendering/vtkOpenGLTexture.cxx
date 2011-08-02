@@ -21,7 +21,7 @@
 #include "vtkOpenGLRenderer.h"
 #include "vtkPointData.h"
 #include "vtkRenderWindow.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkOpenGLRenderWindow.h"
 #include "vtkTransform.h"
 #include "vtkPixelBufferObject.h"
@@ -254,7 +254,7 @@ void vtkOpenGLTexture::Load(vtkRenderer *ren)
     
     if(!this->CheckedHardwareSupport)
       {
-      vtkOpenGLExtensionManager *m=renWin->GetExtensionManager();
+      vtkExtensionManager *m=renWin->GetExtensionManager();
       this->CheckedHardwareSupport=true;
       this->SupportsNonPowerOfTwoTextures=
         m->ExtensionSupported("GL_VERSION_2_0")
@@ -352,7 +352,7 @@ void vtkOpenGLTexture::Load(vtkRenderer *ren)
       }
     else
       {
-      vtkOpenGLExtensionManager* manager = renWin->GetExtensionManager();
+      vtkExtensionManager* manager = renWin->GetExtensionManager();
       if (this->EdgeClamp &&
            (manager->ExtensionSupported("GL_VERSION_1_2") ||
             manager->ExtensionSupported("GL_EXT_texture_edge_clamp")))

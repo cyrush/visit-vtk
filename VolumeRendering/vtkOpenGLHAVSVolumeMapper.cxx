@@ -23,7 +23,7 @@ PURPOSE.  See the above copyright notice for more information.
 #include "vtkInformation.h"
 #include "vtkObjectFactory.h"
 #include "vtkOpenGL.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkPiecewiseFunction.h"
 #include "vtkRenderer.h"
 #include "vtkRenderWindow.h"
@@ -124,7 +124,7 @@ void vtkOpenGLHAVSVolumeMapper::Initialize(vtkRenderer *ren,
     return;
     }
 
-  vtkOpenGLExtensionManager *extensions=
+  vtkExtensionManager *extensions=
     static_cast<vtkOpenGLRenderWindow *>(ren->GetRenderWindow())
     ->GetExtensionManager();
 
@@ -1092,7 +1092,7 @@ void vtkOpenGLHAVSVolumeMapper::PrintSelf(ostream& os, vtkIndent indent)
 {
   if(this->RenderWindow!=0)
     {
-    vtkOpenGLExtensionManager *extensions=
+    vtkExtensionManager *extensions=
       static_cast<vtkOpenGLRenderWindow *>(this->RenderWindow.GetPointer())
       ->GetExtensionManager();
     if ( this->Initialized )
@@ -1141,7 +1141,7 @@ void vtkOpenGLHAVSVolumeMapper::PrintSelf(ostream& os, vtkIndent indent)
 // HAVS algorithm. 
 bool vtkOpenGLHAVSVolumeMapper::SupportedByHardware(vtkRenderer *r)
 {
-  vtkOpenGLExtensionManager *extensions=
+  vtkExtensionManager *extensions=
     static_cast<vtkOpenGLRenderWindow *>(r->GetRenderWindow())
     ->GetExtensionManager();
 

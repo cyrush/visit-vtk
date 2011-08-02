@@ -15,6 +15,7 @@
 #include "vtkStructuredGridLIC2D.h"
 
 #include "vtkFloatArray.h"
+#include "vtkGraphicsFactory.h"
 #include "vtkImageData.h"
 #include "vtkImageNoiseSource.h"
 #include "vtkInformation.h"
@@ -29,7 +30,7 @@
 #include "vtkStructuredExtent.h"
 #include "vtkTextureObject.h"
 #include "vtkObjectFactory.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkOpenGLRenderWindow.h"
 #include "vtkPointData.h"
 #include "vtkStreamingDemandDrivenPipeline.h"
@@ -98,7 +99,7 @@ int vtkStructuredGridLIC2D::SetContext( vtkRenderWindow * context )
 
   if ( openGLRenWin )
     {
-    vtkOpenGLExtensionManager * mgr = openGLRenWin->GetExtensionManager();
+    vtkExtensionManager * mgr = openGLRenWin->GetExtensionManager();
     
     // optional for texture objects.
     mgr->LoadSupportedExtension( "GL_EXT_texture_integer" );
@@ -559,7 +560,8 @@ int vtkStructuredGridLIC2D::RequestData(
   //  pointBus->SetTextureExtent(input->GetExtent());
   pointBus->SetArray(input->GetPoints()->GetData());
   
-  vtkOpenGLExtensionManager * mgr = vtkOpenGLExtensionManager::New();
+  vtkExtensionManager * mgr = vtkExtensionManager::SafeDownCast(
+    vtkGraphicsFactory::CreateInstance("vtkExtensionManager"));
   mgr->SetRenderWindow(this->Context);
   
   // Vector field in image space.

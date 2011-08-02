@@ -26,7 +26,7 @@
 #include "vtkWeakPointer.h" // needed for vtkWeakPointer.
 
 class vtkRenderWindow;
-class vtkOpenGLExtensionManager;
+class vtkExtensionManager;
 class vtkPixelBufferObject;
 
 class VTK_RENDERING_EXPORT vtkTextureObject : public vtkObject
@@ -451,7 +451,7 @@ protected:
 
   // Description:
   // Load all necessary extensions.
-  bool LoadRequiredExtensions(vtkOpenGLExtensionManager*);
+  bool LoadRequiredExtensions(vtkExtensionManager*);
 
   // Description:
   // Creates a texture handle if not already created.

@@ -114,7 +114,7 @@ bool vtkDataTransferHelper::IsSupported(vtkRenderWindow* renWin)
 
 //----------------------------------------------------------------------------
 bool vtkDataTransferHelper::LoadRequiredExtensions(
-  vtkOpenGLExtensionManager* vtkNotUsed(mgr))
+  vtkExtensionManager* vtkNotUsed(mgr))
 {
   // This class doesn't need any particular extension. The extensions needed by
   // pixel buffer objects etc will be loaded by vtkPixelBufferObject.

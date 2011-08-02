@@ -29,8 +29,8 @@
 // vtkGLSLShaderProgram, all shader parameters are initialized in this
 // class.
 //
-// .Section vtkOpenGLExtensionManager
-// All OpenGL calls are made through vtkOpenGLExtensionManager.
+// .Section vtkExtensionManager
+// All OpenGL calls are made through vtkExtensionManager.
 //
 // .Section Supported Basic Shader Types:
 //

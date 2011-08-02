@@ -15,7 +15,7 @@
 #include "vtkShaderProgram2.h"
 
 #include "vtkObjectFactory.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkOpenGLRenderWindow.h"
 #include "vtkShader2Collection.h"
 #include "vtkShader2.h"
@@ -143,7 +143,7 @@ bool vtkShaderProgram2::IsSupported(vtkOpenGLRenderWindow *context)
 {
   assert("pre: context_exists" && context!=0);
   
-  vtkOpenGLExtensionManager *e=context->GetExtensionManager();
+  vtkExtensionManager *e=context->GetExtensionManager();
   
   bool multiTexture=e->ExtensionSupported("GL_VERSION_1_3") ||
     e->ExtensionSupported("GL_ARB_multitexture");
@@ -162,7 +162,7 @@ bool vtkShaderProgram2::LoadExtensions(vtkOpenGLRenderWindow *context)
 {
   assert("pre: context_exists" && context!=0);
   
-  vtkOpenGLExtensionManager *e=context->GetExtensionManager();
+  vtkExtensionManager *e=context->GetExtensionManager();
   
   bool gl13=e->ExtensionSupported("GL_VERSION_1_3")==1;
   bool gl20=e->ExtensionSupported("GL_VERSION_2_0")==1;

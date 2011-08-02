@@ -36,7 +36,7 @@
 #include "vtkGarbageCollector.h"
 #include "vtkMath.h"
 #include "vtkObjectFactory.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkPiecewiseFunction.h"
 #include "vtkPointData.h"
 #include "vtkRenderer.h"
@@ -105,7 +105,7 @@ void vtkOpenGLProjectedAAHexahedraMapper::PrintSelf(ostream &os,
 // ----------------------------------------------------------------------------
 bool vtkOpenGLProjectedAAHexahedraMapper::IsRenderSupported(vtkRenderWindow *w)
 {
-  vtkOpenGLExtensionManager *e=
+  vtkExtensionManager *e=
     static_cast<vtkOpenGLRenderWindow *>(w)->GetExtensionManager();
 
   bool texture3D=e->ExtensionSupported("GL_VERSION_1_2") ||
@@ -130,7 +130,7 @@ void vtkOpenGLProjectedAAHexahedraMapper::Initialize(
   vtkRenderer *ren,
   vtkVolume *vtkNotUsed(vol))
 {
-  vtkOpenGLExtensionManager *e=static_cast<vtkOpenGLRenderWindow *>(
+  vtkExtensionManager *e=static_cast<vtkOpenGLRenderWindow *>(
     ren->GetRenderWindow())->GetExtensionManager();
 
   bool gl12=e->ExtensionSupported("GL_VERSION_1_2")==1;

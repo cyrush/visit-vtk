@@ -232,6 +232,7 @@ SET( KitOpenGL_SRCS
   vtkClearZPass.cxx
   vtkDefaultPass.cxx
   vtkDepthPeelingPass.cxx
+  vtkExtensionManager.cxx
   vtkGaussianBlurPass.cxx
   vtkImageProcessingPass.cxx
   vtkLightsPass.cxx
@@ -289,6 +290,7 @@ SET_SOURCE_FILES_PROPERTIES(
   vtkAbstractPropPicker
   vtkCuller
   vtkExporter
+  vtkExtensionManager
   vtkGPUInfoList
   vtkImageProcessingPass
   vtkImporter
@@ -505,6 +507,8 @@ ADD_CUSTOM_COMMAND(
 
 SET_SOURCE_FILES_PROPERTIES(vtkOpenGLExtensionManager.cxx
   PROPERTIES OBJECT_DEPENDS ${VTK_BINARY_DIR}/Rendering/vtkgl.cxx)
+SET_SOURCE_FILES_PROPERTIES(vtkMesaExtensionManager.cxx
+  PROPERTIES OBJECT_DEPENDS ${VTK_BINARY_DIR}/Rendering/vtkgl.cxx)
 
 SET(KitOpenGL_SRCS ${KitOpenGL_SRCS}
   ${VTK_BINARY_DIR}/Rendering/vtkgl.cxx
@@ -514,6 +518,7 @@ SET_SOURCE_FILES_PROPERTIES(
   # OK, so it's not abstract, but this stops the instantiator
   # from trying to call vtkRenderingInstantiatorvtkglNew():
   ${VTK_BINARY_DIR}/Rendering/vtkgl.cxx
+  vtkExtensionManager.cxx
   vtkLabelHierarchyIterator.cxx
   ABSTRACT
   )

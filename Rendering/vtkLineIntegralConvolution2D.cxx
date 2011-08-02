@@ -20,7 +20,7 @@
 #include "vtkUniformVariables.h"
 #include "vtkShader2Collection.h"
 #include "vtkFrameBufferObject.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 
 #include "vtkMath.h"
 #include "vtkTimerLog.h"
@@ -267,7 +267,7 @@ bool vtkLineIntegralConvolution2D::IsSupported(vtkRenderWindow *renWin)
   // GeForce 6) by testing for geometry shader support, even if we are not
   // using any geometry shader in the LIC algorithm.
 
-  vtkOpenGLExtensionManager *e=w->GetExtensionManager();
+  vtkExtensionManager *e=w->GetExtensionManager();
   bool supportGS=e->ExtensionSupported("GL_VERSION_3_0")==1 ||
     e->ExtensionSupported("GL_ARB_geometry_shader4")==1 ||
     e->ExtensionSupported("GL_EXT_geometry_shader4")==1;

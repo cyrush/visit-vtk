@@ -15,12 +15,13 @@
 #include "vtkOpenGLRenderWindow.h"
 #include "assert.h"
 #include "vtkFloatArray.h"
+#include "vtkGraphicsFactory.h"
 #include "vtkgl.h"
 #include "vtkIdList.h"
 #include "vtkObjectFactory.h"
 #include "vtkOpenGLActor.h"
 #include "vtkOpenGLCamera.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkOpenGLHardwareSupport.h"
 #include "vtkOpenGLLight.h"
 #include "vtkOpenGLPolyDataMapper.h"
@@ -34,7 +35,7 @@
 
 #endif
 
-vtkCxxSetObjectMacro(vtkOpenGLRenderWindow, ExtensionManager, vtkOpenGLExtensionManager);
+vtkCxxSetObjectMacro(vtkOpenGLRenderWindow, ExtensionManager, vtkExtensionManager);
 vtkCxxSetObjectMacro(vtkOpenGLRenderWindow, HardwareSupport, vtkOpenGLHardwareSupport);
 vtkCxxSetObjectMacro(vtkOpenGLRenderWindow, TextureUnitManager, vtkTextureUnitManager);
 
@@ -234,7 +235,7 @@ void vtkOpenGLRenderWindow::OpenGLInit()
 {
   // When a new OpenGL context is created, force an update
   // of the extension manager by calling modified on it.
-  vtkOpenGLExtensionManager *extensions = this->GetExtensionManager();
+  vtkExtensionManager *extensions = this->GetExtensionManager();
   extensions->Modified();
 
   this->ContextCreationTime.Modified();
@@ -1570,7 +1571,7 @@ int vtkOpenGLRenderWindow::CreateHardwareOffScreenWindow(int width, int height)
   
   // 2. check for OpenGL extensions GL_EXT_framebuffer_object and
   // GL_ARB_texture_non_power_of_two (core-promoted feature in OpenGL 2.0)
-  vtkOpenGLExtensionManager *extensions = this->GetExtensionManager();
+  vtkExtensionManager *extensions = this->GetExtensionManager();
   
   int supports_GL_EXT_framebuffer_object=
     extensions->ExtensionSupported("GL_EXT_framebuffer_object");
@@ -1919,12 +1920,13 @@ const char *vtkOpenGLRenderWindow::GetLastGraphicErrorString()
 // Description:
 // Returns the extension manager. A new one will be created if one hasn't
 // already been set up.
-vtkOpenGLExtensionManager* vtkOpenGLRenderWindow::GetExtensionManager()
+vtkExtensionManager* vtkOpenGLRenderWindow::GetExtensionManager()
 {
   if (!this->ExtensionManager)
     {
-    vtkOpenGLExtensionManager* mgr = vtkOpenGLExtensionManager::New();
-    // This does not form a reference loop since vtkOpenGLExtensionManager does
+    vtkExtensionManager* mgr = vtkExtensionManager::SafeDownCast(
+      vtkGraphicsFactory::CreateInstance("vtkExtensionManager"));
+    // This does not form a reference loop since vtkExtensionManager does
     // not keep a reference to the render window.
     mgr->SetRenderWindow(this);
     this->SetExtensionManager(mgr);

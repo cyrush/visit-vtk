@@ -1,7 +1,7 @@
 #include "vtkOpenGLState.h"
 #include "vtkOpenGLRenderWindow.h"
 #include "vtkIndent.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 
 const char *ValueToString(GLint value,
                           int valueTable[],
@@ -11,7 +11,7 @@ const char *ValueToString(GLint value,
 vtkOpenGLState::vtkOpenGLState(vtkOpenGLRenderWindow *context)
 {
   this->Context=context;
-  vtkOpenGLExtensionManager* m=this->Context->GetExtensionManager();
+  vtkExtensionManager* m=this->Context->GetExtensionManager();
   
   m->LoadExtension("GL_VERSION_1_2");
   m->LoadExtension("GL_VERSION_1_3");

@@ -27,7 +27,6 @@
 #include "vtkOpenGLRenderWindow.h"
 
 class vtkIdList;
-class vtkOpenGLExtensionManager;
 class vtkOpenGLHardwareSupport;
 class vtkTextureUnitManager;
 
@@ -177,21 +176,9 @@ public:
 //ETX
 
   // Description:
-  // Returns the extension manager. A new one will be created if one hasn't
-  // already been set up.
-  vtkOpenGLExtensionManager* GetExtensionManager();
-
-  // Description:
   // Returns an Hardware Support object. A new one will be created if one
   // hasn't already been set up.
   vtkOpenGLHardwareSupport* GetHardwareSupport();
-
-  //BTX
-  // Description:
-  // Returns its texture unit manager object. A new one will be created if one
-  // hasn't already been set up.
-  vtkTextureUnitManager *GetTextureUnitManager();
-  //ETX
 
   // Description:
   // Block the thread until the actual rendering is finished().
@@ -265,10 +252,8 @@ private:
   vtkMesaRenderWindow(const vtkMesaRenderWindow&);  // Not implemented.
   void operator=(const vtkMesaRenderWindow&);  // Not implemented.
 
-  void SetExtensionManager(vtkOpenGLExtensionManager*);
   void SetHardwareSupport(vtkOpenGLHardwareSupport * renderWindow);
 
-  vtkOpenGLExtensionManager* ExtensionManager;
   vtkOpenGLHardwareSupport* HardwareSupport;
 };
 #endif
