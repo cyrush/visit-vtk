@@ -27,9 +27,6 @@
 #include "vtkOpenGL.h" // Needed for GLuint.
 
 class vtkIdList;
-class vtkExtensionManager;
-class vtkOpenGLHardwareSupport;
-class vtkTextureUnitManager;
 
 class VTK_RENDERING_EXPORT vtkOpenGLRenderWindow : public vtkRenderWindow
 {
@@ -176,23 +173,6 @@ public:
 //ETX
 
   // Description:
-  // Returns the extension manager. A new one will be created if one hasn't
-  // already been set up.
-  virtual vtkExtensionManager* GetExtensionManager();
-
-  // Description:
-  // Returns an Hardware Support object. A new one will be created if one
-  // hasn't already been set up.
-  virtual vtkOpenGLHardwareSupport* GetHardwareSupport();
-
-  //BTX
-  // Description:
-  // Returns its texture unit manager object. A new one will be created if one
-  // hasn't already been set up.
-  virtual vtkTextureUnitManager *GetTextureUnitManager();
-  //ETX
-
-  // Description:
   // Block the thread until the actual rendering is finished().
   // Useful for measurement only.
   virtual void WaitForCompletion();
@@ -245,10 +225,6 @@ protected:
   // Destroy a not-off-screen window.
   virtual void DestroyWindow()=0;
 
-  // Description:
-  // Set the texture unit manager.
-  virtual void SetTextureUnitManager(vtkTextureUnitManager *textureUnitManager);
-
   unsigned int BackLeftBuffer;
   unsigned int BackRightBuffer;
   unsigned int FrontLeftBuffer;
@@ -261,16 +237,8 @@ protected:
 
   vtkTimeStamp ContextCreationTime;
 
-  vtkTextureUnitManager *TextureUnitManager;
-
 private:
   vtkOpenGLRenderWindow(const vtkOpenGLRenderWindow&);  // Not implemented.
   void operator=(const vtkOpenGLRenderWindow&);  // Not implemented.
-
-  void SetExtensionManager(vtkExtensionManager*);
-  void SetHardwareSupport(vtkOpenGLHardwareSupport * renderWindow);
-
-  vtkExtensionManager* ExtensionManager;
-  vtkOpenGLHardwareSupport* HardwareSupport;
 };
 #endif

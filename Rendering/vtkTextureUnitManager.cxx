@@ -16,8 +16,8 @@
 #include "vtkTextureUnitManager.h"
 
 #include "vtkObjectFactory.h"
-#include "vtkOpenGLRenderWindow.h"
-#include "vtkOpenGLHardwareSupport.h"
+#include "vtkRenderWindow.h"
+#include "vtkHardwareSupport.h"
 
 #include <assert.h>
 
@@ -65,7 +65,7 @@ void vtkTextureUnitManager::DeleteTable()
 }
 
 // ----------------------------------------------------------------------------
-void vtkTextureUnitManager::SetContext(vtkOpenGLRenderWindow *context)
+void vtkTextureUnitManager::SetContext(vtkRenderWindow *context)
 {
   if(this->Context!=context)
     {
@@ -76,7 +76,7 @@ void vtkTextureUnitManager::SetContext(vtkOpenGLRenderWindow *context)
     this->Context=context;
     if(this->Context!=0)
       {
-      vtkOpenGLHardwareSupport *info=context->GetHardwareSupport();
+      vtkHardwareSupport *info=context->GetHardwareSupport();
       this->NumberOfTextureUnits=info->GetNumberOfTextureUnits();
       if(this->NumberOfTextureUnits>0)
         {

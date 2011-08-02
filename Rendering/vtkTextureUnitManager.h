@@ -19,17 +19,17 @@
 // texture unit ( Allocate() ) or release it ( Free() ).
 //
 // Don't create a vtkTextureUnitManager, query it from the
-// vtkOpenGLRenderWindow
+// vtkRenderWindow
 //
 // .SECTION See Also
-// vtkOpenGLRenderWindow
+// vtkRenderWindow
 
 #ifndef __vtkTextureUnitManager_h
 #define __vtkTextureUnitManager_h
 
 #include "vtkObject.h"
 
-class vtkOpenGLRenderWindow;
+class vtkRenderWindow;
 
 class VTK_RENDERING_EXPORT vtkTextureUnitManager : public vtkObject
 {
@@ -45,8 +45,8 @@ public:
   // context to avoid reference loops.
   // SetContext() may raise an error is the OpenGL context does not support the
   // required OpenGL extensions.
-  void SetContext(vtkOpenGLRenderWindow *context);
-  vtkGetObjectMacro(Context,vtkOpenGLRenderWindow);
+  void SetContext(vtkRenderWindow *context);
+  vtkGetObjectMacro(Context,vtkRenderWindow);
   
   // Description:
   // Number of texture units supported by the OpenGL context.
@@ -85,7 +85,7 @@ protected:
   // all the texture units have been released.
   void DeleteTable();
 
-  vtkOpenGLRenderWindow *Context;
+  vtkRenderWindow *Context;
   
   int NumberOfTextureUnits;
   bool *TextureUnits;

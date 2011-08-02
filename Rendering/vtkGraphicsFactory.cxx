@@ -28,6 +28,7 @@
 #include "vtkOpenGLDisplayListPainter.h"
 #include "vtkOpenGLExtensionManager.h"
 #include "vtkOpenGLGlyph3DMapper.h"
+#include "vtkOpenGLHardwareSupport.h"
 #include "vtkOpenGLImageActor.h"
 #include "vtkOpenGLLight.h"
 #include "vtkOpenGLLightingPainter.h"
@@ -83,6 +84,7 @@
 #include "vtkMesaCoincidentTopologyResolutionPainter.h"
 #include "vtkMesaDisplayListPainter.h"
 #include "vtkMesaExtensionManager.h"
+#include "vtkMesaHardwareSupport.h"
 #include "vtkMesaImageActor.h"
 #include "vtkMesaLight.h"
 #include "vtkMesaLightingPainter.h"
@@ -216,6 +218,19 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
 #endif
           {
           return vtkOpenGLExtensionManager::New();
+          }
+      }
+    else if(strcmp(vtkclassname, "vtkHardwareSupport") == 0)
+      {
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
+        if(vtkGraphicsFactory::UseMesaClasses)
+          {
+          return vtkMesaHardwareSupport::New();
+          }
+        else
+#endif
+          {
+          return vtkOpenGLHardwareSupport::New();
           }
       }
     }

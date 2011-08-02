@@ -27,7 +27,6 @@
 #include "vtkOpenGLRenderWindow.h"
 
 class vtkIdList;
-class vtkOpenGLHardwareSupport;
 class vtkTextureUnitManager;
 
 class VTK_RENDERING_EXPORT vtkMesaRenderWindow : public vtkOpenGLRenderWindow
@@ -176,11 +175,6 @@ public:
 //ETX
 
   // Description:
-  // Returns an Hardware Support object. A new one will be created if one
-  // hasn't already been set up.
-  vtkOpenGLHardwareSupport* GetHardwareSupport();
-
-  // Description:
   // Block the thread until the actual rendering is finished().
   // Useful for measurement only.
   virtual void WaitForCompletion();
@@ -230,10 +224,6 @@ protected:
   // Destroy a not-off-screen window.
   virtual void DestroyWindow()=0;
 
-  // Description:
-  // Set the texture unit manager.
-  void SetTextureUnitManager(vtkTextureUnitManager *textureUnitManager);
-
   unsigned int BackLeftBuffer;
   unsigned int BackRightBuffer;
   unsigned int FrontLeftBuffer;
@@ -251,9 +241,5 @@ protected:
 private:
   vtkMesaRenderWindow(const vtkMesaRenderWindow&);  // Not implemented.
   void operator=(const vtkMesaRenderWindow&);  // Not implemented.
-
-  void SetHardwareSupport(vtkOpenGLHardwareSupport * renderWindow);
-
-  vtkOpenGLHardwareSupport* HardwareSupport;
 };
 #endif

@@ -22,7 +22,7 @@
 #include "vtkOpenGLActor.h"
 #include "vtkOpenGLCamera.h"
 #include "vtkExtensionManager.h"
-#include "vtkOpenGLHardwareSupport.h"
+#include "vtkHardwareSupport.h"
 #include "vtkOpenGLLight.h"
 #include "vtkOpenGLPolyDataMapper.h"
 #include "vtkOpenGLProperty.h"
@@ -34,10 +34,6 @@
 #ifndef VTK_IMPLEMENT_MESA_CXX
 
 #endif
-
-vtkCxxSetObjectMacro(vtkOpenGLRenderWindow, ExtensionManager, vtkExtensionManager);
-vtkCxxSetObjectMacro(vtkOpenGLRenderWindow, HardwareSupport, vtkOpenGLHardwareSupport);
-vtkCxxSetObjectMacro(vtkOpenGLRenderWindow, TextureUnitManager, vtkTextureUnitManager);
 
 #define MAX_LIGHTS 8
 
@@ -57,10 +53,6 @@ int vtkOpenGLRenderWindow::GetGlobalMaximumNumberOfMultiSamples()
 
 vtkOpenGLRenderWindow::vtkOpenGLRenderWindow()
 {
-  this->ExtensionManager = NULL;
-  this->HardwareSupport = NULL;
-  this->TextureUnitManager=0;
-  
   this->MultiSamples = vtkOpenGLRenderWindowGlobalMaximumNumberOfMultiSamples;
   this->TextureResourceIds = vtkIdList::New();
   if ( this->WindowName ) 
@@ -84,23 +76,6 @@ vtkOpenGLRenderWindow::vtkOpenGLRenderWindow()
 vtkOpenGLRenderWindow::~vtkOpenGLRenderWindow()
 {
   this->TextureResourceIds->Delete();
-  if(this->TextureUnitManager!=0)
-    {
-    this->TextureUnitManager->SetContext(0);
-    }
-  
-  if (this->ExtensionManager)
-    {
-    this->ExtensionManager->SetRenderWindow(0);
-    }
-  if (this->HardwareSupport)
-    {
-    this->HardwareSupport->SetExtensionManager(0);
-    //this->HardwareSupport->Delete();
-    }
-  this->SetTextureUnitManager(0);
-  this->SetExtensionManager(0);
-  this->SetHardwareSupport(0);
 }
 
 // ----------------------------------------------------------------------------
@@ -1913,64 +1888,6 @@ const char *vtkOpenGLRenderWindow::GetLastGraphicErrorString()
       break;
     }
   return result;
-}
-
-
-// ----------------------------------------------------------------------------
-// Description:
-// Returns the extension manager. A new one will be created if one hasn't
-// already been set up.
-vtkExtensionManager* vtkOpenGLRenderWindow::GetExtensionManager()
-{
-  if (!this->ExtensionManager)
-    {
-    vtkExtensionManager* mgr = vtkExtensionManager::SafeDownCast(
-      vtkGraphicsFactory::CreateInstance("vtkExtensionManager"));
-    // This does not form a reference loop since vtkExtensionManager does
-    // not keep a reference to the render window.
-    mgr->SetRenderWindow(this);
-    this->SetExtensionManager(mgr);
-    mgr->Delete();
-    }
-  return this->ExtensionManager;
-}
-
-// ----------------------------------------------------------------------------
-// Description:
-// Returns an Hardware Support object. A new one will be created if one hasn't
-// already been set up.
-vtkOpenGLHardwareSupport* vtkOpenGLRenderWindow::GetHardwareSupport()
-{
-  if (!this->HardwareSupport)
-    {
-    vtkOpenGLHardwareSupport* hardware = vtkOpenGLHardwareSupport::New();
-    
-    // This does not form a reference loop since vtkOpenGLHardwareSupport does
-    // not keep a reference to the render window.
-    hardware->SetExtensionManager(this->GetExtensionManager());
-    this->SetHardwareSupport(hardware);
-    hardware->Delete();
-    }
-  return this->HardwareSupport;
-}
-
-// ----------------------------------------------------------------------------
-// Description:
-// Returns its texture unit manager object. A new one will be created if one
-// hasn't already been set up.
-vtkTextureUnitManager *vtkOpenGLRenderWindow::GetTextureUnitManager()
-{
-  if(this->TextureUnitManager==0)
-    {
-    vtkTextureUnitManager *manager=vtkTextureUnitManager::New();
-    
-    // This does not form a reference loop since vtkOpenGLHardwareSupport does
-    // not keep a reference to the render window.
-    manager->SetContext(this);
-    this->SetTextureUnitManager(manager);
-    manager->Delete();
-    }
-  return this->TextureUnitManager;
 }
 
 // ----------------------------------------------------------------------------

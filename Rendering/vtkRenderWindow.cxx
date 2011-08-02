@@ -16,11 +16,14 @@
 
 #include "vtkCamera.h"
 #include "vtkCommand.h"
+#include "vtkExtensionManager.h"
 #include "vtkGraphicsFactory.h"
+#include "vtkHardwareSupport.h"
 #include "vtkMath.h"
 #include "vtkPainterDeviceAdapter.h"
 #include "vtkRenderWindowInteractor.h"
 #include "vtkRendererCollection.h"
+#include "vtkTextureUnitManager.h"
 #include "vtkTimerLog.h"
 #include "vtkTransform.h"
 
@@ -29,6 +32,11 @@
 // Needed when we don't use the vtkStandardNewMacro.
 vtkInstantiatorNewMacro(vtkRenderWindow);
 //----------------------------------------------------------------------------
+
+vtkCxxSetObjectMacro(vtkRenderWindow, ExtensionManager, vtkExtensionManager);
+vtkCxxSetObjectMacro(vtkRenderWindow, HardwareSupport, vtkHardwareSupport);
+vtkCxxSetObjectMacro(vtkRenderWindow, TextureUnitManager,
+                     vtkTextureUnitManager);
 
 // Construct an instance of  vtkRenderWindow with its screen size
 // set to 300x300, borders turned on, positioned at (0,0), double
@@ -74,6 +82,9 @@ vtkRenderWindow::vtkRenderWindow()
   this->PainterDeviceAdapter = vtkPainterDeviceAdapter::New();
   this->ReportGraphicErrors=0; // false
   this->AbortCheckTime = 0.0;
+  this->ExtensionManager = NULL;
+  this->HardwareSupport = NULL;
+  this->TextureUnitManager = NULL;
 }
 
 //----------------------------------------------------------------------------
@@ -93,6 +104,22 @@ vtkRenderWindow::~vtkRenderWindow()
     this->ResultFrame = NULL;
     }
   this->Renderers->Delete();
+  if(this->TextureUnitManager!=0)
+    {
+    this->TextureUnitManager->SetContext(0);
+    }
+  
+  if (this->ExtensionManager)
+    {
+    this->ExtensionManager->SetRenderWindow(0);
+    }
+  if (this->HardwareSupport)
+    {
+    this->HardwareSupport->SetExtensionManager(0);
+    }
+  this->SetTextureUnitManager(0);
+  this->SetExtensionManager(0);
+  this->SetHardwareSupport(0);
 
   this->PainterDeviceAdapter->Delete();
 }
@@ -1281,6 +1308,64 @@ void vtkRenderWindow::UnRegister(vtkObjectBase *o)
     }
 
   this->vtkObject::UnRegister(o);
+}
+
+// ----------------------------------------------------------------------------
+// Description:
+// Returns the extension manager. A new one will be created if one hasn't
+// already been set up.
+vtkExtensionManager* vtkRenderWindow::GetExtensionManager()
+{
+  if (!this->ExtensionManager)
+    {
+    vtkExtensionManager* mgr = vtkExtensionManager::SafeDownCast(
+      vtkGraphicsFactory::CreateInstance("vtkExtensionManager"));
+    // This does not form a reference loop since vtkExtensionManager does
+    // not keep a reference to the render window.
+    mgr->SetRenderWindow(this);
+    this->SetExtensionManager(mgr);
+    mgr->Delete();
+    }
+  return this->ExtensionManager;
+}
+
+// ----------------------------------------------------------------------------
+// Description:
+// Returns an Hardware Support object. A new one will be created if one hasn't
+// already been set up.
+vtkHardwareSupport* vtkRenderWindow::GetHardwareSupport()
+{
+  if (!this->HardwareSupport)
+    {
+    vtkHardwareSupport* hardware = vtkHardwareSupport::SafeDownCast(
+      vtkGraphicsFactory::CreateInstance("vtkHardwareSupport"));
+    
+    // This does not form a reference loop since vtkHardwareSupport does
+    // not keep a reference to the render window.
+    hardware->SetExtensionManager(this->GetExtensionManager());
+    this->SetHardwareSupport(hardware);
+    hardware->Delete();
+    }
+  return this->HardwareSupport;
+}
+
+// ----------------------------------------------------------------------------
+// Description:
+// Returns its texture unit manager object. A new one will be created if one
+// hasn't already been set up.
+vtkTextureUnitManager *vtkRenderWindow::GetTextureUnitManager()
+{
+  if(this->TextureUnitManager==0)
+    {
+    vtkTextureUnitManager *manager=vtkTextureUnitManager::New();
+    
+    // This does not form a reference loop since vtkHardwareSupport does
+    // not keep a reference to the render window.
+    manager->SetContext(this);
+    this->SetTextureUnitManager(manager);
+    manager->Delete();
+    }
+  return this->TextureUnitManager;
 }
 
 //----------------------------------------------------------------------------

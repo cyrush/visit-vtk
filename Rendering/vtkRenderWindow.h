@@ -40,11 +40,14 @@
 
 #include "vtkWindow.h"
 
+class vtkExtensionManager;
 class vtkFloatArray;
+class vtkHardwareSupport;
 class vtkPainterDeviceAdapter;
 class vtkRenderWindowInteractor;
 class vtkRenderer;
 class vtkRendererCollection;
+class vtkTextureUnitManager;
 class vtkUnsignedCharArray;
 
 // lets define the different types of stereo
@@ -549,6 +552,23 @@ public:
   // Description:
   // Return a string matching the last graphic error status.
   virtual const char *GetLastGraphicErrorString()=0;
+
+  // Description:
+  // Returns the extension manager. A new one will be created if one hasn't
+  // already been set up.
+  virtual vtkExtensionManager* GetExtensionManager();
+
+  // Description:
+  // Returns an Hardware Support object. A new one will be created if one
+  // hasn't already been set up.
+  virtual vtkHardwareSupport* GetHardwareSupport();
+
+  //BTX
+  // Description:
+  // Returns its texture unit manager object. A new one will be created if one
+  // hasn't already been set up.
+  virtual vtkTextureUnitManager *GetTextureUnitManager();
+  //ETX
   
 protected:
   vtkRenderWindow();
@@ -557,6 +577,16 @@ protected:
   virtual void DoStereoRender();
   virtual void DoFDRender();
   virtual void DoAARender();
+
+  void SetExtensionManager(vtkExtensionManager*);
+  void SetHardwareSupport(vtkHardwareSupport*);
+  // Description:
+  // Set the texture unit manager.
+  virtual void SetTextureUnitManager(vtkTextureUnitManager*);
+
+  vtkTextureUnitManager* TextureUnitManager;
+  vtkExtensionManager* ExtensionManager;
+  vtkHardwareSupport* HardwareSupport;
 
   vtkPainterDeviceAdapter* PainterDeviceAdapter;
   vtkRendererCollection *Renderers;
