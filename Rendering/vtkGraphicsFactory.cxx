@@ -20,7 +20,7 @@
 #include "vtkPainterPolyDataMapper.h"
 
 // if using some sort of opengl, then include these files
-#if defined(VTK_USE_OGLR) || defined(VTK_USE_OSMESA) || defined(_WIN32) || defined(VTK_USE_COCOA) || defined(VTK_USE_CARBON)
+#if defined(VTK_USE_OGLR) || defined(_WIN32) || defined(VTK_USE_COCOA) || defined(VTK_USE_CARBON)
 #include "vtkOpenGLActor.h"
 #include "vtkOpenGLCamera.h"
 #include "vtkOpenGLClipPlanesPainter.h"
@@ -75,7 +75,7 @@
 //# define VTK_DISPLAY_X11_OGL
 #endif
 
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_OPENGL_HAS_OSMESA)
 #include "vtkMesaActor.h"
 #include "vtkMesaCamera.h"
 #include "vtkMesaClipPlanesPainter.h"
@@ -195,6 +195,12 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
         return vtkXMesaRenderWindow::New();
         }
 #endif
+#if defined(VTK_USE_OSMESA)
+      if (vtkGraphicsFactory::UseMesaClasses)
+        {
+        return vtkOSOpenGLRenderWindow::New();
+        }
+#endif
       return vtkXOpenGLRenderWindow::New();
       }
     }
@@ -284,7 +290,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
     {
     if(strcmp(vtkclassname, "vtkActor") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaActor::New();
@@ -294,7 +300,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if(strcmp(vtkclassname, "vtkCamera") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaCamera::New();
@@ -304,7 +310,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if(strcmp(vtkclassname, "vtkImageActor") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaImageActor::New();
@@ -314,7 +320,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if(strcmp(vtkclassname, "vtkLight") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaLight::New();
@@ -324,7 +330,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if(strcmp(vtkclassname, "vtkProperty") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaProperty::New();
@@ -338,7 +344,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if (strcmp(vtkclassname, "vtkPainterDeviceAdapter") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaPainterDeviceAdapter::New();
@@ -348,7 +354,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if (strcmp(vtkclassname, "vtkScalarsToColorsPainter") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaScalarsToColorsPainter::New();
@@ -358,7 +364,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if (strcmp(vtkclassname, "vtkClipPlanesPainter") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaClipPlanesPainter::New();
@@ -368,7 +374,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if (strcmp(vtkclassname, "vtkCoincidentTopologyResolutionPainter") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaCoincidentTopologyResolutionPainter::New();
@@ -378,7 +384,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if (strcmp(vtkclassname, "vtkDisplayListPainter") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaDisplayListPainter::New();
@@ -388,7 +394,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if (strcmp(vtkclassname, "vtkLightingPainter") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaLightingPainter::New();
@@ -398,7 +404,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if (strcmp(vtkclassname, "vtkRepresentationPainter") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaRepresentationPainter::New();
@@ -408,7 +414,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if(strcmp(vtkclassname, "vtkRenderer") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaRenderer::New();
@@ -418,7 +424,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if(strcmp(vtkclassname, "vtkTexture") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return vtkMesaTexture::New();
@@ -428,7 +434,7 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
     if(strcmp(vtkclassname, "vtkGlyph3DMapper") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
       if ( vtkGraphicsFactory::UseMesaClasses )
         {
         return NULL;

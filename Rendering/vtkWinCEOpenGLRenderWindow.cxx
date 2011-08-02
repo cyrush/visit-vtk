@@ -33,12 +33,12 @@ vtkStandardNewMacro(vtkWinCEOpenGLRenderWindow);
 #define VTK_MAX_LIGHTS 8
 
 // a couple of routines for offscreen rendering
-void vtkOSMesaDestroyWindow(void *Window) 
+static void vtkOSMesaDestroyWindow(void *Window) 
 {
   free(Window);
 }
 
-void *vtkOSMesaCreateWindow(int width, int height) 
+static void *vtkOSMesaCreateWindow(int width, int height) 
 {
   return malloc(width*height*4);
 }

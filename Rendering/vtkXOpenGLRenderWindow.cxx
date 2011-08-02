@@ -126,12 +126,12 @@ vtkStandardNewMacro(vtkXOpenGLRenderWindow);
 
 #ifdef VTK_OPENGL_HAS_OSMESA
 // a couple of routines for offscreen rendering
-void vtkOSMesaDestroyWindow(void *Window) 
+static void vtkOSMesaDestroyWindow(void *Window) 
 {
   free(Window);
 }
 
-void *vtkOSMesaCreateWindow(int width, int height) 
+static void *vtkOSMesaCreateWindow(int width, int height) 
 {
   return malloc(width*height*4);
 }
@@ -813,9 +813,9 @@ void vtkXOpenGLRenderWindow::CreateOffScreenWindow(int width, int height)
   
   this->DoubleBuffer = 0;
 
-  // always prefer OSMESA if we built with it
+  // check for request of OSMesa.
 #ifdef VTK_OPENGL_HAS_OSMESA
-  if(1)
+  if(vtkGraphicsFactory::GetUseMesaClasses())
     {
     if (!this->Internal->OffScreenWindow)
       {

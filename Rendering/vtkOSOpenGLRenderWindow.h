@@ -26,16 +26,16 @@
 #ifndef __vtkOSOpenGLRenderWindow_h
 #define __vtkOSOpenGLRenderWindow_h
 
-#include "vtkOpenGLRenderWindow.h"
+#include "vtkMesaRenderWindow.h"
 
 class vtkIdList;
 class vtkOSOpenGLRenderWindowInternal;
 
-class VTK_RENDERING_EXPORT vtkOSOpenGLRenderWindow : public vtkOpenGLRenderWindow
+class VTK_RENDERING_EXPORT vtkOSOpenGLRenderWindow : public vtkMesaRenderWindow
 {
 public:
   static vtkOSOpenGLRenderWindow *New();
-  vtkTypeMacro(vtkOSOpenGLRenderWindow,vtkOpenGLRenderWindow);
+  vtkTypeMacro(vtkOSOpenGLRenderWindow,vtkMesaRenderWindow);
   void PrintSelf(ostream& os, vtkIndent indent);
 
   // Description:
@@ -207,7 +207,4 @@ private:
   vtkOSOpenGLRenderWindow(const vtkOSOpenGLRenderWindow&);  // Not implemented.
   void operator=(const vtkOSOpenGLRenderWindow&);  // Not implemented.
 };
-
-
-
 #endif

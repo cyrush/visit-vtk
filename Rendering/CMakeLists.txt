@@ -694,45 +694,66 @@ if(VTK_USE_NVCONTROL)
  include_directories(${NVCtrlLib_INCLUDE_DIR})
 endif(VTK_USE_NVCONTROL)
 
-IF (VTK_USE_MANGLED_MESA)
+IF (VTK_USE_MANGLED_MESA OR VTK_OPENGL_HAS_OSMESA)
+  ADD_DEFINITIONS(-DFTGL_SUPPORT_MANGLE_MESA)
+  SET ( KitOpenGL_SRCS ${KitOpenGL_SRCS}
+               vtkMesaActor.cxx
+               vtkMesaCamera.cxx
+               vtkMesaClipPlanesPainter.cxx
+               vtkMesaCoincidentTopologyResolutionPainter.cxx
+               vtkMesaDisplayListPainter.cxx
+               vtkMesaExtensionManager.cxx
+               vtkMesaHardwareSupport.cxx
+               vtkMesaImageActor.cxx
+               vtkMesaImageMapper.cxx
+               vtkMesaLight.cxx
+               vtkMesaLightingPainter.cxx
+               vtkMesaPainterDeviceAdapter.cxx
+               vtkMesaPolyDataMapper.cxx
+               vtkMesaPolyDataMapper2D.cxx
+               vtkMesaProperty.cxx
+               vtkMesaRenderWindow.cxx
+               vtkMesaRenderer.cxx
+               vtkMesaRepresentationPainter.cxx
+               vtkMesaScalarsToColorsPainter.cxx
+               vtkMesaTexture.cxx
+              )
+  SET_SOURCE_FILES_PROPERTIES(vtkMesaRenderWindow ABSTRACT)
+  # TODO/FIXME: make this conditional on FT being available?
+  SET(KitOpenGL_SRCS ${KitOpenGL_SRCS}
+    vtkMesaFreeTypeTextMapper.cxx
+  )
+
+  # Additional sources
+  IF(VTK_USE_X AND MANGLED_MESA_LIBRARY)
+    SET(KitOpenGL_SRCS ${KitOpenGL_SRCS} vtkXMesaRenderWindow.cxx)
+  ENDIF(VTK_USE_X AND MANGLED_MESA_LIBRARY)
+  IF(VTK_OPENGL_HAS_OSMESA)
+    SET(KitOpenGL_SRCS ${KitOpenGL_SRCS} vtkOSOpenGLRenderWindow.cxx)
+  ENDIF (VTK_OPENGL_HAS_OSMESA)
+
+  # OSMesa
+  IF(MANGLED_OSMESA_INCLUDE_DIR)
+    include_directories(${MANGLED_OSMESA_INCLUDE_DIR})
+  ENDIF(MANGLED_OSMESA_INCLUDE_DIR)
+  IF(OSMESA_INCLUDE_DIR)
+    include_directories(${OSMESA_INCLUDE_DIR})
+  ENDIF(OSMESA_INCLUDE_DIR)
+
+  IF(MANGLED_OSMESA_LIBRARY)
+    SET( KIT_LIBS ${KIT_LIBS} ${MANGLED_OSMESA_LIBRARY} )
+  ENDIF(MANGLED_OSMESA_LIBRARY)
+
+  # Mangled mesa
   IF (MANGLED_MESA_LIBRARY)
-    SET ( KitOpenGL_SRCS ${KitOpenGL_SRCS}
-                 vtkMesaActor.cxx
-                 vtkMesaCamera.cxx
-                 vtkMesaClipPlanesPainter.cxx
-                 vtkMesaCoincidentTopologyResolutionPainter.cxx
-                 vtkMesaDisplayListPainter.cxx
-                 vtkMesaImageActor.cxx
-                 vtkMesaImageMapper.cxx
-                 vtkMesaLight.cxx
-                 vtkMesaLightingPainter.cxx
-                 vtkMesaPainterDeviceAdapter.cxx
-                 vtkMesaPolyDataMapper.cxx
-                 vtkMesaPolyDataMapper2D.cxx
-                 vtkMesaProperty.cxx
-                 vtkMesaRenderWindow.cxx
-                 vtkMesaRenderer.cxx
-                 vtkMesaRepresentationPainter.cxx
-                 vtkMesaScalarsToColorsPainter.cxx
-                 vtkMesaTexture.cxx
-                )
-    IF(VTK_USE_X)
-      SET(KitOpenGL_SRCS ${KitOpenGL_SRCS} vtkXMesaRenderWindow.cxx)
-    ENDIF(VTK_USE_X)
-    SET(KitOpenGL_SRCS ${KitOpenGL_SRCS}
-      vtkMesaFreeTypeTextMapper.cxx
-    )
-    SET_SOURCE_FILES_PROPERTIES(vtkMesaRenderWindow ABSTRACT)
-    IF(MANGLED_OSMESA_LIBRARY)
-      SET( KIT_LIBS ${KIT_LIBS} ${MANGLED_OSMESA_LIBRARY} )
-    ENDIF(MANGLED_OSMESA_LIBRARY)
     SET (KIT_LIBS ${KIT_LIBS} ${MANGLED_MESA_LIBRARY})
   ENDIF (MANGLED_MESA_LIBRARY)
-ELSE (VTK_USE_MANGLED_MESA)
+
+ELSE (VTK_USE_MANGLED_MESA OR VTK_OPENGL_HAS_OSMESA) 
   IF(VTK_OPENGL_HAS_OSMESA  AND  OSMESA_LIBRARY)
     SET(KIT_LIBS ${KIT_LIBS} ${OSMESA_LIBRARY})
   ENDIF(VTK_OPENGL_HAS_OSMESA  AND  OSMESA_LIBRARY)
-ENDIF(VTK_USE_MANGLED_MESA)
+ENDIF(VTK_USE_MANGLED_MESA OR VTK_OPENGL_HAS_OSMESA)
 SET(Kit_SRCS ${Kit_SRCS} ${KitOpenGL_SRCS})
 SET(Kit_EXTRA_SRCS ${Kit_EXTRA_SRCS} ${Kit_FT_SRCS})
 

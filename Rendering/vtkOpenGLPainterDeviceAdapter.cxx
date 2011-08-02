@@ -26,7 +26,6 @@
 #include "vtkDataArray.h"
 #include "vtkDataSetAttributes.h"
 #include "vtkObjectFactory.h"
-#include "vtkOpenGLExtensionManager.h"
 #include "vtkRenderer.h"
 #include "vtkgl.h"
 

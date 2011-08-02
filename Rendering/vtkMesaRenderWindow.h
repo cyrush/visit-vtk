@@ -21,24 +21,24 @@
 #ifndef __vtkMesaRenderWindow_h
 #define __vtkMesaRenderWindow_h
 
-#include "vtkRenderWindow.h"
-
 #include "MangleMesaInclude/gl_mangle.h" // Needed for GLuint
 #include <MangleMesaInclude/gl.h> // Needed for GLuint
+
+#include "vtkOpenGLRenderWindow.h"
 
 class vtkIdList;
 class vtkOpenGLExtensionManager;
 class vtkOpenGLHardwareSupport;
 class vtkTextureUnitManager;
 
-class VTK_RENDERING_EXPORT vtkMesaRenderWindow : public vtkRenderWindow
+class VTK_RENDERING_EXPORT vtkMesaRenderWindow : public vtkOpenGLRenderWindow
 {
 protected:
   int MultiSamples;
   long OldMonitorSetting;
 
 public:
-  vtkTypeMacro(vtkMesaRenderWindow,vtkRenderWindow);
+  vtkTypeMacro(vtkMesaRenderWindow,vtkOpenGLRenderWindow);
   void PrintSelf(ostream& os, vtkIndent indent);
   
   // Description:
@@ -271,5 +271,4 @@ private:
   vtkOpenGLExtensionManager* ExtensionManager;
   vtkOpenGLHardwareSupport* HardwareSupport;
 };
-
 #endif

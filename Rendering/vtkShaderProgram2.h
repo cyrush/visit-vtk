@@ -27,7 +27,6 @@
 
 class vtkWindow;
 class vtkOpenGLRenderWindow;
-class vtkOpenGLExtensionManager;
 class vtkShaderProgram2Uniforms; // internal
 class vtkShader2Collection;
 class vtkUniformVariables;

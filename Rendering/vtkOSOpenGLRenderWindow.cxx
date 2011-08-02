@@ -12,34 +12,18 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-#ifndef VTK_IMPLEMENT_MESA_CXX
 #include "vtkOSOpenGLRenderWindow.h"
-#include "vtkOpenGLRenderer.h"
-#include "vtkOpenGLProperty.h"
-#include "vtkOpenGLTexture.h"
-#include "vtkOpenGLCamera.h"
-#include "vtkOpenGLLight.h"
-#include "vtkOpenGLActor.h"
-#include "vtkOpenGLPolyDataMapper.h"
-#include <GL/gl.h>
-// #include "GL/glx.h"
-#include "vtkgl.h"
-#else
+#include "vtkMesaRenderer.h"
+#include "MangleMesaInclude/gl_mangle.h"
+#include "MangleMesaInclude/gl.h"
 #include "MangleMesaInclude/osmesa.h"
-#endif
 
 #include "vtkToolkits.h"
-#ifndef VTK_IMPLEMENT_MESA_CXX
-#ifdef VTK_OPENGL_HAS_OSMESA
-#include <GL/osmesa.h>
-#endif
-#endif
 
 #include "vtkCommand.h"
 #include "vtkIdList.h"
 #include "vtkObjectFactory.h"
 #include "vtkRendererCollection.h"
-#include "vtkOpenGLExtensionManager.h"
 
 #include "vtksys/SystemTools.hxx"
 #include "vtksys/ios/sstream"
@@ -84,12 +68,12 @@ vtkStandardNewMacro(vtkOSOpenGLRenderWindow);
 #define MAX_LIGHTS 8
 
 // a couple of routines for offscreen rendering
-void vtkOSMesaDestroyWindow(void *Window) 
+static void vtkOSMesaDestroyWindow(void *Window) 
 {
   free(Window);
 }
 
-void *vtkOSMesaCreateWindow(int width, int height) 
+static void *vtkOSMesaCreateWindow(int width, int height) 
 {
   return malloc(width*height*4);
 }
@@ -118,9 +102,9 @@ vtkOSOpenGLRenderWindow::~vtkOSOpenGLRenderWindow()
   
   vtkRenderer* ren;
   this->Renderers->InitTraversal();
-  for ( ren = vtkOpenGLRenderer::SafeDownCast(this->Renderers->GetNextItemAsObject());
+  for ( ren = vtkMesaRenderer::SafeDownCast(this->Renderers->GetNextItemAsObject());
         ren != NULL;
-        ren = vtkOpenGLRenderer::SafeDownCast(this->Renderers->GetNextItemAsObject())  )
+        ren = vtkMesaRenderer::SafeDownCast(this->Renderers->GetNextItemAsObject())  )
     {
     ren->SetRenderWindow(NULL);
     }
@@ -167,9 +151,9 @@ void vtkOSOpenGLRenderWindow::DestroyWindow()
   // destructor)
   vtkRenderer* ren;
   this->Renderers->InitTraversal();
-  for ( ren = vtkOpenGLRenderer::SafeDownCast(this->Renderers->GetNextItemAsObject());
+  for ( ren = vtkMesaRenderer::SafeDownCast(this->Renderers->GetNextItemAsObject());
         ren != NULL;
-        ren = vtkOpenGLRenderer::SafeDownCast(this->Renderers->GetNextItemAsObject())  )
+        ren = vtkMesaRenderer::SafeDownCast(this->Renderers->GetNextItemAsObject())  )
     {
     ren->SetRenderWindow(NULL);
     ren->SetRenderWindow(this);
