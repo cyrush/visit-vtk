@@ -16,7 +16,7 @@
 
 #include "MangleMesaInclude/gl_mangle.h"
 #include "MangleMesaInclude/gl.h"
-#include "MangleMesaInclude/osmesa.h"
+#include "GL/osmesa.h"
 #include "vtkXMesaRenderWindow.h"
 #include "vtkMesaRenderer.h"
 #include "vtkMesaProperty.h"
@@ -27,7 +27,6 @@
 #include "vtkMesaPolyDataMapper.h"
 #include "MangleMesaInclude/glx_mangle.h"
 #include "MangleMesaInclude/glx.h"
-#include "MangleMesaInclude/osmesa.h"
 
 #include "vtkRenderWindowInteractor.h"
 

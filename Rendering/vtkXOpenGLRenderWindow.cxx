@@ -32,7 +32,7 @@
 
 #include "vtkgl.h"
 #else
-#include "MangleMesaInclude/osmesa.h"
+#include "GL/osmesa.h"
 #endif
 
 #include "vtkToolkits.h"

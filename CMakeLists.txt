@@ -839,15 +839,20 @@ ENDIF(VTK_USE_RENDERING)
 VTK_PREPARE_CMAKEDEFINE("" OPENGL_LIBRARY VTK_USE_OPENGL_LIBRARY)
 
 #-----------------------------------------------------------------------------
-# Configure Mangled MESA support.
-IF(VTK_USE_MANGLED_MESA)
+# Configure Mangled Mesa support.
+IF(VTK_USE_MANGLED_MESA OR VTK_OPENGL_HAS_OSMESA)
   FIND_PACKAGE(MangledMesa)
 
   IF(MANGLED_MESA_INCLUDE_DIR)
     USE_MANGLED_MESA(${MANGLED_MESA_INCLUDE_DIR}/GL
                      ${VTK_BINARY_DIR}/MangleMesaInclude)
+  ELSE(MANGLED_MESA_INCLUDE_DIR)
+    IF(OSMESA_INCLUDE_DIR)
+      USE_MANGLED_MESA(${OSMESA_INCLUDE_DIR}/GL
+                       ${VTK_BINARY_DIR}/MangleMesaInclude)
+    ENDIF(OSMESA_INCLUDE_DIR)
   ENDIF(MANGLED_MESA_INCLUDE_DIR)
-ENDIF(VTK_USE_MANGLED_MESA)
+ENDIF(VTK_USE_MANGLED_MESA OR VTK_OPENGL_HAS_OSMESA)
 
 #-----------------------------------------------------------------------------
 # Configure Off-Screen MESA support.

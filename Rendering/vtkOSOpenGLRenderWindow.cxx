@@ -16,7 +16,7 @@ PURPOSE.  See the above copyright notice for more information.
 #include "vtkMesaRenderer.h"
 #include "MangleMesaInclude/gl_mangle.h"
 #include "MangleMesaInclude/gl.h"
-#include "MangleMesaInclude/osmesa.h"
+#include "GL/osmesa.h"
 
 #include "vtkToolkits.h"
 
