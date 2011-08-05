@@ -289,7 +289,7 @@ public:
 
 protected:
   vtkCocoaRenderWindow();
-  ~vtkCocoaRenderWindow();
+  virtual ~vtkCocoaRenderWindow();
 
   void CreateGLContext();
 
