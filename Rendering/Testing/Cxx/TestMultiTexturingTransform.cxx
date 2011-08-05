@@ -22,7 +22,7 @@
 #include <vtkDoubleArray.h>
 #include <vtkFloatArray.h>
 #include <vtkImageData.h>
-#include <vtkOpenGLHardwareSupport.h>
+#include <vtkHardwareSupport.h>
 #include <vtkOpenGLRenderWindow.h>
 #include <vtkPlaneSource.h>
 #include <vtkProperty.h>
@@ -131,7 +131,7 @@ int TestMultiTexturingTransform(int argc, char *argv[])
   mapper->SetInput(polyData);
   vtkActor * actor = vtkActor::New();
 
-  vtkOpenGLHardwareSupport * hardware = 
+  vtkHardwareSupport * hardware = 
     vtkOpenGLRenderWindow::SafeDownCast(renWin)->GetHardwareSupport();
 
   bool supported=hardware->GetSupportsMultiTexturing();
