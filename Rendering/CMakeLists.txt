@@ -703,8 +703,6 @@ endif(VTK_USE_NVCONTROL)
 
 IF (VTK_USE_MANGLED_MESA OR VTK_OPENGL_HAS_OSMESA)
   ADD_DEFINITIONS(-DFTGL_SUPPORT_MANGLE_MESA)
-  # To pick up "MangleMesaInclude".
-  INCLUDE_DIRECTORIES(${VTK_BINARY_DIR}/)
   SET ( KitOpenGL_SRCS ${KitOpenGL_SRCS}
                vtkMesaActor.cxx
                vtkMesaCamera.cxx

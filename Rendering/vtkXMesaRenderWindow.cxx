@@ -14,8 +14,8 @@
 =========================================================================*/
 #define VTK_IMPLEMENT_MESA_CXX
 
-#include "MangleMesaInclude/gl_mangle.h"
-#include "MangleMesaInclude/gl.h"
+#include "GL/gl_mangle.h"
+#include "GL/gl.h"
 #include "GL/osmesa.h"
 #include "vtkXMesaRenderWindow.h"
 #include "vtkMesaRenderer.h"
@@ -25,8 +25,8 @@
 #include "vtkMesaLight.h"
 #include "vtkMesaActor.h"
 #include "vtkMesaPolyDataMapper.h"
-#include "MangleMesaInclude/glx_mangle.h"
-#include "MangleMesaInclude/glx.h"
+#include "GL/glx_mangle.h"
+#include "GL/glx.h"
 
 #include "vtkRenderWindowInteractor.h"
 

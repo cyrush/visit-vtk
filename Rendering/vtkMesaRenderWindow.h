@@ -21,8 +21,8 @@
 #ifndef __vtkMesaRenderWindow_h
 #define __vtkMesaRenderWindow_h
 
-#include "MangleMesaInclude/gl_mangle.h" // Needed for GLuint
-#include <MangleMesaInclude/gl.h> // Needed for GLuint
+#include "GL/gl_mangle.h" // Needed for GLuint
+#include "GL/gl.h" // Needed for GLuint
 
 #include "vtkOpenGLRenderWindow.h"
 

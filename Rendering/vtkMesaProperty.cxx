@@ -15,8 +15,8 @@
 // Make sure this is first, so any includes of gl.h can be stoped if needed
 #define VTK_IMPLEMENT_MESA_CXX
 
-#include "MangleMesaInclude/gl_mangle.h"
-#include "MangleMesaInclude/gl.h"
+#include "GL/gl_mangle.h"
+#include "GL/gl.h"
 
 #include "vtkToolkits.h"
 #include "vtkMesaProperty.h"

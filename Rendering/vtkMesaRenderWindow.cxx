@@ -14,8 +14,8 @@
 =========================================================================*/
 // Probably not needed for abstract classes without new methods.
 #define VTK_IMPLEMENT_MESA_CXX
-#include "MangleMesaInclude/gl_mangle.h"
-#include "MangleMesaInclude/gl.h"
+#include "GL/gl_mangle.h"
+#include "GL/gl.h"
 
 #include "vtkOpenGLRenderWindow.h"
 #include "vtkXMesaRenderWindow.h"

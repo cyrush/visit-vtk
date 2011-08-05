@@ -14,8 +14,8 @@ PURPOSE.  See the above copyright notice for more information.
 =========================================================================*/
 #include "vtkOSOpenGLRenderWindow.h"
 #include "vtkMesaRenderer.h"
-#include "MangleMesaInclude/gl_mangle.h"
-#include "MangleMesaInclude/gl.h"
+#include "GL/gl_mangle.h"
+#include "GL/gl.h"
 #include "GL/osmesa.h"
 
 #include "vtkToolkits.h"

@@ -22,7 +22,8 @@
 #define __vtkMesaPolyDataMapper_h
 
 #include "vtkPolyDataMapper.h"
-#include "MangleMesaInclude/gl.h"  // Needed for GLenum
+#include "GL/gl_mangle.h"  // Needed for GLenum
+#include "GL/gl.h"  // Needed for GLenum
 
 class vtkCellArray;
 class vtkPoints;
