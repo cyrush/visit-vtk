@@ -18,11 +18,14 @@ SET(KIT_TCL_LIBS vtkFilteringTCL)
 SET(KIT_PYTHON_LIBS vtkFilteringPythonD)
 SET(KIT_JAVA_LIBS vtkFilteringJava)
 SET(KIT_INTERFACE_LIBRARIES vtkFiltering)
-SET(KIT_LIBS vtkDICOMParser vtkNetCDF vtkNetCDF_cxx
+SET(KIT_LIBS vtkDICOMParser
   ${_VTK_METAIO_LIB} vtksqlite
   ${VTK_PNG_LIBRARIES} ${VTK_ZLIB_LIBRARIES} ${VTK_JPEG_LIBRARIES}
   ${VTK_TIFF_LIBRARIES} ${VTK_EXPAT_LIBRARIES} ${VTK_OGGTHEORA_LIBRARIES}
   ${KWSYS_NAMESPACE})
+IF(VTK_USE_NETCDF)
+  SET(KIT_LIBS ${KIT_LIBS} vtkNetCDF vtkNetCDF_cxx)
+ENDIF(VTK_USE_NETCDF)
 
 SET( Kit_SRCS
 vtkAbstractParticleWriter.cxx
@@ -85,15 +88,8 @@ vtkMCubesWriter.cxx
 vtkMedicalImageProperties.cxx
 vtkMedicalImageReader2.cxx
 ${_VTK_METAIO_SOURCES}
-vtkMINCImageAttributes.cxx
-vtkMINCImageReader.cxx
-vtkMINCImageWriter.cxx
-vtkMPASReader.cxx
 vtkMultiBlockPLOT3DReader.cxx
 vtkMoleculeReaderBase.cxx
-vtkNetCDFCFReader.cxx
-vtkNetCDFPOPReader.cxx
-vtkNetCDFReader.cxx
 vtkOBJReader.cxx
 ${_VTK_OGGTHEORA_SOURCES}
 vtkOpenFOAMReader.cxx
@@ -118,8 +114,6 @@ vtkRTXMLPolyDataReader.cxx
 vtkRowQuery.cxx
 vtkSESAMEReader.cxx
 vtkShaderCodeLibrary.cxx
-vtkSLACParticleReader.cxx
-vtkSLACReader.cxx
 vtkSQLDatabase.cxx
 vtkSQLDatabaseSchema.cxx
 vtkSQLiteDatabase.cxx
@@ -212,6 +206,19 @@ vtkXMLWriterC.cxx
 vtkXYZMolReader.cxx
 vtkZLibDataCompressor.cxx
 )
+IF(VTK_USE_NETCDF)
+  SET( Kit_SRCS ${Kit_SRCS}
+  vtkMINCImageAttributes.cxx
+  vtkMINCImageReader.cxx
+  vtkMINCImageWriter.cxx
+  vtkMPASReader.cxx
+  vtkNetCDFCFReader.cxx
+  vtkNetCDFPOPReader.cxx
+  vtkNetCDFReader.cxx
+  vtkSLACParticleReader.cxx
+  vtkSLACReader.cxx
+  )
+ENDIF(VTK_USE_NETCDF)
 
 SET_SOURCE_FILES_PROPERTIES(
 vtkAbstractParticleWriter

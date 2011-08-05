@@ -17,11 +17,11 @@ IF(VTK_USE_DISPLAY AND VTK_USE_RENDERING)
     # VS6 builds do not handle out-of-range double assignment to float
     # properly. Do not run TestMultiBlockExodusWrite on VS6 builds.
     #
-    IF(NOT CMAKE_GENERATOR MATCHES "Visual Studio 6")
+    IF(NOT CMAKE_GENERATOR MATCHES "Visual Studio 6" AND VTK_USE_NETCDF)
       SET(MyTests ${MyTests}
         TestMultiBlockExodusWrite.cxx
         )
-    ENDIF(NOT CMAKE_GENERATOR MATCHES "Visual Studio 6")
+    ENDIF(NOT CMAKE_GENERATOR MATCHES "Visual Studio 6" AND VTK_USE_NETCDF)
   ENDIF (VTK_DATA_ROOT)
   CREATE_TEST_SOURCELIST(Tests ${KIT}CxxTests.cxx ${MyTests}
                          EXTRA_INCLUDE vtkTestDriver.h)

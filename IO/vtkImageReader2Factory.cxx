@@ -20,7 +20,9 @@
 #include "vtkImageReader2.h"
 #include "vtkImageReader2Collection.h"
 #include "vtkJPEGReader.h"
+#ifdef VTK_USE_NETCDF
 #include "vtkMINCImageReader.h"
+#endif
 #include "vtkObjectFactory.h"
 #include "vtkObjectFactoryCollection.h"
 #include "vtkPNGReader.h"
@@ -154,9 +156,11 @@ void vtkImageReader2Factory::InitializeReaders()
   vtkImageReader2Factory::AvailableReaders->
     AddItem((reader = vtkGESignaReader::New()));
   reader->Delete();
+#ifdef VTK_USE_NETCDF
   vtkImageReader2Factory::AvailableReaders->
     AddItem((reader = vtkMINCImageReader::New()));
   reader->Delete();
+#endif
 #ifdef VTK_USE_METAIO
   vtkImageReader2Factory::AvailableReaders->
     AddItem((reader = vtkMetaImageReader::New()));

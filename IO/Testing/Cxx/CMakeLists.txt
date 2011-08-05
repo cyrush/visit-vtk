@@ -17,17 +17,22 @@ IF(VTK_USE_DISPLAY AND VTK_USE_RENDERING)
     TestPLYReader.cxx
     TestProStarReader.cxx
     TestTecplotReader.cxx
-    SLACReaderLinear.cxx
-    SLACReaderQuadratic.cxx
-    TestNetCDFPOPReader.cxx
     )
+  IF(VTK_USE_NETCDF)
+    SET(ConditionalTests
+      ${ConditionalTests}
+      SLACReaderLinear.cxx
+      SLACReaderQuadratic.cxx
+      TestNetCDFPOPReader.cxx
+    )
+  ENDIF(VTK_USE_NETCDF)
 
-IF(NOT WIN32)
+IF(NOT WIN32 AND VTK_USE_NETCDF)
   SET(ConditionalTests
     ${ConditionalTests}
     SLACParticleReader.cxx
     )
-ENDIF(NOT WIN32)
+ENDIF(NOT WIN32 AND VTK_USE_NETCDF)
 
 ENDIF(VTK_USE_DISPLAY AND VTK_USE_RENDERING)
 IF(VTK_USE_INFOVIS)
@@ -138,26 +143,26 @@ IF (VTK_DATA_ROOT)
 ENDIF (VTK_DATA_ROOT)
 
 IF (VTK_LARGE_DATA_ROOT)
-  IF (VTK_USE_DISPLAY AND VTK_USE_RENDERING)
-    ADD_TEST(SLACReaderLinear ${CXX_TEST_PATH}/${KIT}CxxTests
-         SLACReaderLinear -D ${VTK_LARGE_DATA_ROOT}
-         -T ${VTK_BINARY_DIR}/Testing/Temporary
-         -V ${VTK_LARGE_DATA_ROOT}/Baseline/${KIT}/SLACReaderLinear.png)
-    ADD_TEST(SLACReaderQuadratic ${CXX_TEST_PATH}/${KIT}CxxTests
-         SLACReaderQuadratic -D ${VTK_LARGE_DATA_ROOT}
-         -T ${VTK_BINARY_DIR}/Testing/Temporary
-         -V ${VTK_LARGE_DATA_ROOT}/Baseline/${KIT}/SLACReaderQuadratic.png)
-    ADD_TEST(TestNetCDFPOPReader ${CXX_TEST_PATH}/${KIT}CxxTests
-         TestNetCDFPOPReader -D ${VTK_LARGE_DATA_ROOT}
-         -T ${VTK_BINARY_DIR}/Testing/Temporary
-         -V ${VTK_LARGE_DATA_ROOT}/Baseline/${KIT}/TestNetCDFPOPReader.png)
+  IF (VTK_USE_DISPLAY AND VTK_USE_RENDERING AND VTK_USE_NETCDF)
+      ADD_TEST(SLACReaderLinear ${CXX_TEST_PATH}/${KIT}CxxTests
+           SLACReaderLinear -D ${VTK_LARGE_DATA_ROOT}
+           -T ${VTK_BINARY_DIR}/Testing/Temporary
+           -V ${VTK_LARGE_DATA_ROOT}/Baseline/${KIT}/SLACReaderLinear.png)
+      ADD_TEST(SLACReaderQuadratic ${CXX_TEST_PATH}/${KIT}CxxTests
+           SLACReaderQuadratic -D ${VTK_LARGE_DATA_ROOT}
+           -T ${VTK_BINARY_DIR}/Testing/Temporary
+           -V ${VTK_LARGE_DATA_ROOT}/Baseline/${KIT}/SLACReaderQuadratic.png)
+      ADD_TEST(TestNetCDFPOPReader ${CXX_TEST_PATH}/${KIT}CxxTests
+           TestNetCDFPOPReader -D ${VTK_LARGE_DATA_ROOT}
+           -T ${VTK_BINARY_DIR}/Testing/Temporary
+           -V ${VTK_LARGE_DATA_ROOT}/Baseline/${KIT}/TestNetCDFPOPReader.png)
     IF(NOT WIN32)
       ADD_TEST(SLACParticleReader ${CXX_TEST_PATH}/${KIT}CxxTests
            SLACParticleReader -D ${VTK_LARGE_DATA_ROOT}
            -T ${VTK_BINARY_DIR}/Testing/Temporary
            -V ${VTK_LARGE_DATA_ROOT}/Baseline/${KIT}/SLACParticleReader.png)
     ENDIF(NOT WIN32)
-  ENDIF (VTK_USE_DISPLAY AND VTK_USE_RENDERING)
+  ENDIF (VTK_USE_DISPLAY AND VTK_USE_RENDERING AND VTK_USE_NETCDF)
 ENDIF (VTK_LARGE_DATA_ROOT)
 
 ADD_TEST(TestSQLDatabaseSchema ${CXX_TEST_PATH}/${KIT}CxxTests TestSQLDatabaseSchema)

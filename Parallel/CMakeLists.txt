@@ -18,9 +18,9 @@ ELSE(VTK_USE_RENDERING)
   SET(KIT_PYTHON_LIBS ${KIT_PYTHON_LIBS} vtkGraphicsPythonD)
   SET(KIT_LIBS ${KIT_LIBS} vtkGraphics vtkImaging)
 ENDIF(VTK_USE_RENDERING)
-IF(VTK_HAS_EXODUS)
+IF(VTK_HAS_EXODUS AND VTK_USE_NETCDF)
   SET(KIT_LIBS ${KIT_LIBS} vtkexoIIc)
-ENDIF(VTK_HAS_EXODUS)
+ENDIF(VTK_HAS_EXODUS AND VTK_USE_NETCDF)
 
 SET ( Kit_SRCS
 vtkBranchExtentTranslator.cxx
@@ -73,7 +73,6 @@ vtkProcess.cxx
 vtkProcessGroup.cxx
 vtkProcessIdScalars.cxx
 vtkPReflectionFilter.cxx
-vtkPSLACReader.cxx
 vtkPSphereSource.cxx
 vtkPStreamTracer.cxx
 vtkPTableToStructuredGrid.cxx
@@ -95,6 +94,11 @@ vtkWindBladeReader.cxx
 vtkXMLPHierarchicalBoxDataWriter.cxx
 vtkXMLPMultiBlockDataWriter.cxx
 )
+IF(VTK_USE_NETCDF)
+  SET ( Kit_SRCS ${Kit_SRCS}
+  vtkPSLACReader.cxx
+  )
+ENDIF(VTK_USE_NETCDF)
 
 IF(VTK_USE_RENDERING)
   SET ( Kit_SRCS
@@ -119,11 +123,11 @@ SET(glsl_files
   )
 ENDIF(VTK_USE_RENDERING)
 
-IF(VTK_HAS_EXODUS)
+IF(VTK_HAS_EXODUS AND VTK_USE_NETCDF)
   SET(Kit_SRCS ${Kit_SRCS}
     vtkExodusIIWriter.cxx
   )
-ENDIF(VTK_HAS_EXODUS)
+ENDIF(VTK_HAS_EXODUS AND VTK_USE_NETCDF)
 
 SET_SOURCE_FILES_PROPERTIES(
 vtkCommunicator 

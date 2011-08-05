@@ -5,9 +5,9 @@ SET(KIT_TCL_LIBS vtkRenderingTCL vtkIOTCL)
 SET(KIT_PYTHON_LIBS vtkRenderingPythonD vtkIOPythonD)
 SET(KIT_JAVA_LIBS vtkRenderingJava vtkIOJava)
 SET(KIT_INTERFACE_LIBRARIES vtkRendering vtkIO)
-IF(VTK_HAS_EXODUS)
+IF(VTK_HAS_EXODUS AND VTK_USE_NETCDF)
   SET(KIT_LIBS ${KIT_LIBS} vtkexoIIc)
-ENDIF(VTK_HAS_EXODUS)
+ENDIF(VTK_HAS_EXODUS AND VTK_USE_NETCDF)
 
 IF (WIN32)
   IF (VTK_VFW_SUPPORTS_CAPTURE)
@@ -57,8 +57,6 @@ vtkMNIObjectReader.cxx
 vtkMNIObjectWriter.cxx
 vtkMNITagPointReader.cxx
 vtkMNITagPointWriter.cxx
-vtkMNITransformReader.cxx
-vtkMNITransformWriter.cxx
 vtkPCAAnalysisFilter.cxx
 vtkPieChartActor.cxx
 vtkPolyDataSilhouette.cxx
@@ -88,8 +86,14 @@ vtkX3DExporterWriter.cxx
 vtkX3DExporterXMLWriter.cxx
 vtkX3DExporterFIWriter.cxx
 )
+IF(VTK_USE_NETCDF)
+  SET ( Kit_SRCS ${Kit_SRCS}
+  vtkMNITransformReader.cxx
+  vtkMNITransformWriter.cxx
+  )
+ENDIF(VTK_USE_NETCDF)
 
-IF(VTK_HAS_EXODUS)
+IF(VTK_HAS_EXODUS AND VTK_USE_NETCDF)
   SET(Kit_SRCS ${Kit_SRCS}
     vtkExodusIICache.cxx
     vtkExodusIIReader.cxx
@@ -107,7 +111,7 @@ IF(VTK_HAS_EXODUS)
       )
     SET(KIT_INTERFACE_LIBRARIES ${KIT_INTERFACE_LIBRARIES} vtkParallel)
   ENDIF(VTK_USE_PARALLEL)
-ENDIF(VTK_HAS_EXODUS)
+ENDIF(VTK_HAS_EXODUS AND VTK_USE_NETCDF)
 
 IF (WIN32)
   IF (VTK_VFW_SUPPORTS_CAPTURE)

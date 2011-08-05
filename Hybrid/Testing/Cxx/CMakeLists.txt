@@ -10,7 +10,6 @@ IF (VTK_DATA_ROOT)
 #    TestAxisActor3D.cxx
     TestCubeAxes3.cxx
     TestBarChartActor.cxx
-    TestExodusImplicitArrays.cxx
     #TestLabelPlacerExodus.cxx
     TestLegendScaleActor.cxx
     TestPolyDataSilhouette.cxx
@@ -20,6 +19,11 @@ IF (VTK_DATA_ROOT)
     TestTDxGeo.cxx
     TestLegendBoxActor.cxx
     )
+  IF(VTK_USE_NETCDF)
+    SET(MyTests ${MyTests}
+      TestExodusImplicitArrays.cxx
+    )
+  ENDIF(VTK_USE_NETCDF)
   # Temporarily disable LIC tests on Mac platforms
   IF (VTK_USE_GLSL_SHADERS AND NOT APPLE)
     SET(MyTests ${MyTests}

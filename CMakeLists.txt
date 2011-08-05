@@ -1122,6 +1122,9 @@ ENDIF(VTK_WRAP_JAVA)
 #-----------------------------------------------------------------------------
 # The entire VTK tree should use the same include path.
 
+OPTION(VTK_USE_NETCDF "Build vtkNetCDF and use in vtkIO" ON)
+MARK_AS_ADVANCED(VTK_USE_NETCDF)
+
 # Create the list of include directories needed for VTK header files.
 INCLUDE(${VTK_SOURCE_DIR}/vtkIncludeDirectories.cmake)
 
