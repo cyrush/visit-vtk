@@ -208,32 +208,6 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       return vtkXOpenGLRenderWindow::New();
 #endif
       }
-    else if(strcmp(vtkclassname, "vtkExtensionManager") == 0)
-      {
-#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
-      if(vtkGraphicsFactory::UseMesaClasses)
-        {
-        return vtkMesaExtensionManager::New();
-        }
-      else
-#endif
-        {
-        return vtkOpenGLExtensionManager::New();
-        }
-      }
-    else if(strcmp(vtkclassname, "vtkHardwareSupport") == 0)
-      {
-#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
-      if(vtkGraphicsFactory::UseMesaClasses)
-        {
-        return vtkMesaHardwareSupport::New();
-        }
-      else
-#endif
-        {
-        return vtkOpenGLHardwareSupport::New();
-        }
-      }
     }
   if ( !vtkGraphicsFactory::GetOffScreenOnlyMode() )
     {
@@ -243,6 +217,33 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       return vtkXRenderWindowInteractor::New();
       }
 #endif
+    }
+
+  if(strcmp(vtkclassname, "vtkExtensionManager") == 0)
+    {
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
+    if(vtkGraphicsFactory::UseMesaClasses)
+      {
+      return vtkMesaExtensionManager::New();
+      }
+    else
+#endif
+      {
+      return vtkOpenGLExtensionManager::New();
+      }
+    }
+  else if(strcmp(vtkclassname, "vtkHardwareSupport") == 0)
+    {
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
+    if(vtkGraphicsFactory::UseMesaClasses)
+      {
+      return vtkMesaHardwareSupport::New();
+      }
+    else
+#endif
+      {
+      return vtkOpenGLHardwareSupport::New();
+      }
     }
 
   if(strcmp(vtkclassname, "vtkGPUInfoList") == 0)
