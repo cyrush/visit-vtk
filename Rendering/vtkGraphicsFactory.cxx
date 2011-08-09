@@ -283,6 +283,12 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
     {
     if(strcmp(vtkclassname, "vtkRenderWindow") == 0)
       {
+#if defined(VTK_USE_OSMESA)
+      if (vtkGraphicsFactory::UseMesaClasses)
+        {
+        return vtkOSOpenGLRenderWindow::New();
+        }
+#endif
       return vtkWin32OpenGLRenderWindow::New();
       }
     }
@@ -298,6 +304,12 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
     }
   if(strcmp(vtkclassname, "vtkRenderWindow") == 0)
     {
+#if defined(VTK_USE_OSMESA)
+    if (vtkGraphicsFactory::UseMesaClasses)
+      {
+      return vtkOSOpenGLRenderWindow::New();
+      }
+#endif
     return vtkCarbonRenderWindow::New();
     }
 #endif
@@ -311,6 +323,12 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
     }
   if(strcmp(vtkclassname, "vtkRenderWindow") == 0)
     {
+#if defined(VTK_USE_OSMESA)
+    if (vtkGraphicsFactory::UseMesaClasses)
+      {
+      return vtkOSOpenGLRenderWindow::New();
+      }
+#endif
     return vtkCocoaRenderWindow::New();
     }
 #endif
