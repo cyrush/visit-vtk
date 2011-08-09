@@ -261,11 +261,13 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
       }
 
 #if defined(VTK_USE_OSMESA)
-  if(strcmp(vtkclassname, "vtkRenderWindow") == 0)
+  if(vtkGraphicsFactory::UseMesaClasses &&
+     strcmp(vtkclassname, "vtkRenderWindow") == 0)
     {
     return vtkOSOpenGLRenderWindow::New();
     }
-  if(strcmp(vtkclassname, "vtkRenderWindowInteractor") == 0)
+  if(vtkGraphicsFactory::UseMesaClasses &&
+     strcmp(vtkclassname, "vtkRenderWindowInteractor") == 0)
     {
     return 0; // there is no interactor with OSMesa
     }
