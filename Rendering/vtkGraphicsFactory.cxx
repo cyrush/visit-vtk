@@ -188,7 +188,6 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
 #endif
   const char *rl = vtkGraphicsFactory::GetRenderLibrary();
   
-#ifdef VTK_USE_OGLR
   if (!strcmp("OpenGL",rl))
     {
     if(strcmp(vtkclassname, "vtkRenderWindow") == 0)
@@ -205,7 +204,9 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
         return vtkOSOpenGLRenderWindow::New();
         }
 #endif
+#ifdef VTK_USE_X
       return vtkXOpenGLRenderWindow::New();
+#endif
       }
     else if(strcmp(vtkclassname, "vtkExtensionManager") == 0)
       {
@@ -236,12 +237,13 @@ vtkObject* vtkGraphicsFactory::CreateInstance(const char* vtkclassname )
     }
   if ( !vtkGraphicsFactory::GetOffScreenOnlyMode() )
     {
+#ifdef VTK_USE_X
     if(strcmp(vtkclassname, "vtkRenderWindowInteractor") == 0)
       {
       return vtkXRenderWindowInteractor::New();
       }
-    }
 #endif
+    }
 
   if(strcmp(vtkclassname, "vtkGPUInfoList") == 0)
       {
