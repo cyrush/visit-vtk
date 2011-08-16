@@ -148,6 +148,13 @@ public:
   // Returns true if the extension is supported, false otherwise.
   virtual int ExtensionSupported(const char *name);
 
+//BTX
+  // Description:
+  // Returns a function pointer to the OpenGL extension function with the
+  // given name.  Returns NULL if the function could not be retrieved.
+  virtual vtkExtensionManagerFunctionPointer GetProcAddress(
+    const char *fname);
+
 protected:
   vtkMesaExtensionManager();
   virtual ~vtkMesaExtensionManager();
