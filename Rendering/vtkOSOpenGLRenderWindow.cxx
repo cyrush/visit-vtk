@@ -477,7 +477,7 @@ int vtkOSOpenGLRenderWindow::SupportsOpenGL()
 int vtkOSOpenGLRenderWindow::IsDirect()
 {
   MakeCurrent();
-  return 0;
+  return 1;
 }
 
 
