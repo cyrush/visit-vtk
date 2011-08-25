@@ -22,6 +22,12 @@
 #include "vtkToolkits.h"
 #include "vtkMesaExtensionManager.h"
 
+#ifdef VTK_USE_X
+#include "vtkDynamicLoader.h"
+#include <vtkstd/string>
+#include <vtkstd/list>
+#endif
+
 // make sure this file is included before the #define takes place
 // so we don't get two vtkMesaTexture classes defined.
 #include "vtkOpenGLExtensionManager.h"
@@ -40,7 +46,18 @@ vtkMesaExtensionManager::GetProcAddress(const char *fname)
         // Mangle the function name.
         char *mfname = new char[1 + strlen(fname) + 1];
         snprintf(mfname, 1+strlen(fname)+1, "m%s", fname);
+#ifdef VTK_USE_X
+        /* We may yet need to do this on other platforms too.
+         *
+         * This change prevents the base class' GetProcAddress from using
+         * glX functions to look up the "mgl" function name.
+         */
+        vtkLibHandle lh = vtkDynamicLoader::OpenLibrary(NULL);
+        retval = (vtkExtensionManagerFunctionPointer)vtkDynamicLoader::GetSymbolAddress(lh, mfname);
+        vtkDynamicLoader::CloseLibrary(lh);
+#else
         retval = vtkExtensionManager::GetProcAddress(mfname);
+#endif
         delete [] mfname;
     }
     
