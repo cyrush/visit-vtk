@@ -227,6 +227,7 @@ void vtkOpenGLRenderWindow::OpenGLInit()
   // 2. Switch to offscreen with GDI Windows implementation (1.1)
   vtkgl::BlendFuncSeparate=0;
   
+#ifndef VTK_IMPLEMENT_MESA_CXX
   // Try to initialize vtkgl::BlendFuncSeparate() if available.
   if (extensions->ExtensionSupported("GL_VERSION_1_4"))
     {
@@ -239,6 +240,7 @@ void vtkOpenGLRenderWindow::OpenGLInit()
       extensions->LoadCorePromotedExtension("GL_EXT_blend_func_separate");
       }
     }
+#endif
   
   if(vtkgl::BlendFuncSeparate!=0)
     {
