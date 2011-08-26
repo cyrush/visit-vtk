@@ -1,5 +1,5 @@
-#include "MangleMesaInclude/gl_mangle.h"
-#include "MangleMesaInclude/gl.h"
+#include "GL/gl_mangle.h"
+#include "GL/gl.h"
 
 #define RenderFunctionName RenderMesa
 
