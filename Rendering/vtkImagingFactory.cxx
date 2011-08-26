@@ -24,7 +24,7 @@
 #include "vtkOpenGLFreeTypeTextMapper.h"
 #endif
 
-#if defined(VTK_USE_MANGLED_MESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
 #include "vtkMesaImageMapper.h"
 #include "vtkMesaPolyDataMapper2D.h"
 #include "vtkMesaFreeTypeTextMapper.h"
@@ -124,37 +124,37 @@ vtkObject* vtkImagingFactory::CreateInstance(const char* vtkclassname )
 
   const char *rl = vtkImagingFactoryGetRenderLibrary();
 
-#if defined(VTK_USE_OGLR) || defined(VTK_USE_OSMESA)
+#if defined(VTK_USE_MANGLED_MESA) || defined(VTK_USE_OSMESA)
+  if ( vtkImagingFactory::UseMesaClasses )
+    {
+    if(strcmp(vtkclassname, "vtkTextMapper") == 0)
+      {
+      return vtkMesaFreeTypeTextMapper::New();
+      }
+    if(strcmp(vtkclassname, "vtkImageMapper") == 0)
+      {
+      return vtkMesaImageMapper::New();
+      }
+    if(strcmp(vtkclassname, "vtkPolyDataMapper2D") == 0)
+      {
+      return vtkMesaPolyDataMapper2D::New();
+      }
+    }
+#endif
+
+#if defined(VTK_USE_OGLR)
   if (!strcmp("OpenGL",rl))
     {
     if(strcmp(vtkclassname, "vtkTextMapper") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
-      if ( vtkImagingFactory::UseMesaClasses )
-        {
-        return vtkMesaFreeTypeTextMapper::New();
-        }
-#endif
       return vtkOpenGLFreeTypeTextMapper::New();
       }
     if(strcmp(vtkclassname, "vtkImageMapper") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
-      if ( vtkImagingFactory::UseMesaClasses )
-        {
-        return vtkMesaImageMapper::New();
-        }
-#endif
       return vtkOpenGLImageMapper::New();
       }
     if(strcmp(vtkclassname, "vtkPolyDataMapper2D") == 0)
       {
-#if defined(VTK_USE_MANGLED_MESA)
-      if ( vtkImagingFactory::UseMesaClasses )
-        {
-        return vtkMesaPolyDataMapper2D::New();
-        }
-#endif
       return vtkOpenGLPolyDataMapper2D::New();
       }
     }
