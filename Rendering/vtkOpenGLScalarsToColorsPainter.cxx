@@ -163,24 +163,35 @@ void vtkOpenGLScalarsToColorsPainter::RenderInternal(vtkRenderer *renderer,
 
   int pre_multiplied_by_alpha =  this->GetPremultiplyColorsWithAlpha(actor);
   
+  if(pre_multiplied_by_alpha || this->InterpolateScalarsBeforeMapping)
+  {
+    // save the blend function.
+    glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LIGHTING_BIT);
+  }
+  
   // We colors were premultiplied by alpha then we change the blending
   // function to one that will compute correct blended destination alpha
   // value, otherwise we stick with the default.
   if (pre_multiplied_by_alpha)
-    {
-    // save the blend function.
-    glPushAttrib(GL_COLOR_BUFFER_BIT);
-    
+    {   
     // the following function is not correct with textures because there are
     // not premultiplied by alpha.
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     }
 
+  if (this->InterpolateScalarsBeforeMapping)
+    {
+    // Turn on color sum and separate specular color so specular works 
+    // with texturing.
+    glEnable(vtkgl::COLOR_SUM);
+    glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
+    }
+
   this->Superclass::RenderInternal(renderer, actor, typeflags,forceCompileOnly);
 
-  if (pre_multiplied_by_alpha)
+  if (pre_multiplied_by_alpha || this->InterpolateScalarsBeforeMapping)
     {
-    // restore the blend function
+    // restore the blend function & lights
     glPopAttrib();
     }
 }
