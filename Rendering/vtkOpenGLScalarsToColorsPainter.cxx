@@ -184,7 +184,7 @@ void vtkOpenGLScalarsToColorsPainter::RenderInternal(vtkRenderer *renderer,
     // Turn on color sum and separate specular color so specular works 
     // with texturing.
     glEnable(vtkgl::COLOR_SUM);
-    glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
+    glLightModeli(vtkgl::LIGHT_MODEL_COLOR_CONTROL, vtkgl::SEPARATE_SPECULAR_COLOR);
     }
 
   this->Superclass::RenderInternal(renderer, actor, typeflags,forceCompileOnly);
