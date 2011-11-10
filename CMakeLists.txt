@@ -836,9 +836,9 @@ VTK_PREPARE_CMAKEDEFINE("" OPENGL_LIBRARY VTK_USE_OPENGL_LIBRARY)
 
 #-----------------------------------------------------------------------------
 # Configure Mangled Mesa support.
-IF(VTK_USE_MANGLED_MESA OR VTK_OPENGL_HAS_OSMESA)
+IF(VTK_USE_MANGLED_MESA)
   FIND_PACKAGE(MangledMesa)
-ENDIF(VTK_USE_MANGLED_MESA OR VTK_OPENGL_HAS_OSMESA)
+ENDIF(VTK_USE_MANGLED_MESA)
 
 #-----------------------------------------------------------------------------
 # Configure Off-Screen MESA support.
