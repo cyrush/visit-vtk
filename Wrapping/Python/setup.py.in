@@ -18,17 +18,6 @@ from distutils.core import setup
 from distutils.command.install_data import install_data
 from distutils.sysconfig import get_config_var
 
-# Support for Python Eggs:
-#  http://peak.telecommunity.com/DevCenter/PythonEggs
-#  http://peak.telecommunity.com/DevCenter/EasyInstall
-has_setup_tools = 0
-try:
-    from setuptools import setup
-except ImportError:
-    pass
-else:
-    has_setup_tools = 1
-
 # VTK build configuration settings.
 vtk_version = "@VTK_MAJOR_VERSION@.@VTK_MINOR_VERSION@.@VTK_BUILD_VERSION@"
 vtk_lib_dir = "@LIBRARY_OUTPUT_PATH@"
@@ -180,9 +169,5 @@ if __name__ == '__main__':
                    #scripts           = get_scripts(),
                    data_files        = [('vtk', get_libs())]
                    )
-    # If setup_tools is available, then add an extra option to disable
-    # creation of a ZIP file.
-    if has_setup_tools:
-        opts['zip_safe'] = 0
 
     setup(**opts)
