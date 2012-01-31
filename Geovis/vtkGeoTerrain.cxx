@@ -207,7 +207,7 @@ void vtkGeoTerrain::AddActors(
   this->InitializeNodeAnalysis(ren);
 
   // See if we have multiTexturing
-  vtkOpenGLHardwareSupport * hardware =
+  vtkOpenGLHardwareSupport * hardware = (vtkOpenGLHardwareSupport*)
     vtkOpenGLRenderWindow::SafeDownCast(ren->GetRenderWindow())->GetHardwareSupport();
 
   bool multiTexturing = hardware->GetSupportsMultiTexturing();

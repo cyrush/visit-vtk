@@ -63,7 +63,7 @@ bool vtkOpenGL2ContextDevice2D::IsSupported(vtkViewport *viewport)
     {
     vtkOpenGLRenderWindow *win =
         vtkOpenGLRenderWindow::SafeDownCast(gl->GetRenderWindow());
-    vtkOpenGLExtensionManager *man = win->GetExtensionManager();
+    vtkOpenGLExtensionManager *man = (vtkOpenGLExtensionManager*) win->GetExtensionManager();
     if (man->ExtensionSupported("GL_VERSION_2_0"))
       {
       supported = true;

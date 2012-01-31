@@ -117,7 +117,7 @@ void vtkOpenGLContextDevice2D::Begin(vtkViewport* viewport)
     {
     if (this->RenderWindow)
       {
-      this->LoadExtensions(this->RenderWindow->GetExtensionManager());
+          this->LoadExtensions((vtkOpenGLExtensionManager*)this->RenderWindow->GetExtensionManager());
       }
     }
 
