@@ -34,7 +34,7 @@ class vtkViewport;
 class vtkRenderer;
 class vtkStringToImage;
 class vtkOpenGLRenderWindow;
-class vtkOpenGLExtensionManager;
+class vtkExtensionManager;
 
 class VTK_CHARTS_EXPORT vtkOpenGLContextDevice2D : public vtkContextDevice2D
 {
@@ -281,7 +281,7 @@ protected:
 
   // Description:
   // Load the OpenGL extensions we need.
-  virtual bool LoadExtensions(vtkOpenGLExtensionManager *m);
+  virtual bool LoadExtensions(vtkExtensionManager *m);
 
   // Description:
   // The OpenGL render window being used by the device

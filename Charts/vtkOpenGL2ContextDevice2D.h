@@ -79,7 +79,7 @@ protected:
 
   // Description:
   // Load the OpenGL extensions we need.
-  virtual bool LoadExtensions(vtkOpenGLExtensionManager *m);
+  virtual bool LoadExtensions(vtkExtensionManager *m);
 
 private:
   vtkOpenGL2ContextDevice2D(const vtkOpenGL2ContextDevice2D &); // Not implemented.

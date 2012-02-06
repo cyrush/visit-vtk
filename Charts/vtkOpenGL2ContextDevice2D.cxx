@@ -43,7 +43,7 @@
 #include "vtkRenderer.h"
 #include "vtkOpenGLRenderer.h"
 #include "vtkOpenGLRenderWindow.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkShaderProgram2.h"
 #include "vtkgl.h"
 
@@ -63,7 +63,7 @@ bool vtkOpenGL2ContextDevice2D::IsSupported(vtkViewport *viewport)
     {
     vtkOpenGLRenderWindow *win =
         vtkOpenGLRenderWindow::SafeDownCast(gl->GetRenderWindow());
-    vtkOpenGLExtensionManager *man = (vtkOpenGLExtensionManager*) win->GetExtensionManager();
+    vtkExtensionManager *man = win->GetExtensionManager();
     if (man->ExtensionSupported("GL_VERSION_2_0"))
       {
       supported = true;
@@ -207,7 +207,7 @@ void vtkOpenGL2ContextDevice2D::ReleaseGraphicsResources(vtkWindow *window)
 }
 
 //-----------------------------------------------------------------------------
-bool vtkOpenGL2ContextDevice2D::LoadExtensions(vtkOpenGLExtensionManager *m)
+bool vtkOpenGL2ContextDevice2D::LoadExtensions(vtkExtensionManager *m)
 {
   if(m->ExtensionSupported("GL_VERSION_2_0"))
     {

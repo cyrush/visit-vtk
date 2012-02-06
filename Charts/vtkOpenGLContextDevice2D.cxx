@@ -43,7 +43,7 @@
 #include "vtkRenderer.h"
 #include "vtkOpenGLRenderer.h"
 #include "vtkOpenGLRenderWindow.h"
-#include "vtkOpenGLExtensionManager.h"
+#include "vtkExtensionManager.h"
 #include "vtkShaderProgram2.h"
 #include "vtkgl.h"
 
@@ -1140,7 +1140,7 @@ bool vtkOpenGLContextDevice2D::HasGLSL()
 }
 
 //-----------------------------------------------------------------------------
-bool vtkOpenGLContextDevice2D::LoadExtensions(vtkOpenGLExtensionManager *m)
+bool vtkOpenGLContextDevice2D::LoadExtensions(vtkExtensionManager *m)
 {
   if(m->ExtensionSupported("GL_ARB_texture_non_power_of_two"))
     {

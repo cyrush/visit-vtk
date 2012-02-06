@@ -39,7 +39,7 @@
 #include "vtkImageData.h"
 #include "vtkMath.h"
 #include "vtkObjectFactory.h"
-#include "vtkOpenGLHardwareSupport.h"
+#include "vtkHardwareSupport.h"
 #include "vtkOpenGLRenderWindow.h"
 #include "vtkPainter.h"
 #include "vtkPainterPolyDataMapper.h"
@@ -207,7 +207,7 @@ void vtkGeoTerrain::AddActors(
   this->InitializeNodeAnalysis(ren);
 
   // See if we have multiTexturing
-  vtkOpenGLHardwareSupport * hardware = (vtkOpenGLHardwareSupport*)
+  vtkHardwareSupport * hardware =
     vtkOpenGLRenderWindow::SafeDownCast(ren->GetRenderWindow())->GetHardwareSupport();
 
   bool multiTexturing = hardware->GetSupportsMultiTexturing();
