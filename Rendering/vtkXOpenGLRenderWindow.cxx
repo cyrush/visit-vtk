@@ -641,7 +641,7 @@ void vtkXOpenGLRenderWindow::CreateAWindow()
       }
     }
 
-  if(this->OwnWindow)
+  if(this->OwnWindow && !this->OffScreenRendering))
     {
     vtkDebugMacro(" Mapping the xwindow\n");
     XMapWindow(this->DisplayId, this->WindowId);
