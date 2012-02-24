@@ -48,6 +48,7 @@ protected:
   ~vtkMesaScalarsToColorsPainter();
  
   vtkMesaTexture* InternalColorTexture;
+  int AlphaBitPlanes;
 
   // Description:
   // Generates rendering primitives of appropriate type(s). Multiple types 

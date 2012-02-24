@@ -21,6 +21,8 @@
 #include "vtkImageData.h"
 #include "vtkMapper.h" //for VTK_MATERIALMODE_*
 #include "vtkObjectFactory.h"
+#include "vtkOpenGLRenderer.h"
+#include "vtkOpenGLRenderWindow.h"
 #include "vtkOpenGLTexture.h"
 #include "vtkPointData.h"
 #include "vtkPolyData.h"
@@ -42,6 +44,7 @@ vtkStandardNewMacro(vtkOpenGLScalarsToColorsPainter);
 vtkOpenGLScalarsToColorsPainter::vtkOpenGLScalarsToColorsPainter()
 {
   this->InternalColorTexture = 0;
+  this->AlphaBitPlanes = -1;
 }
 
 //-----------------------------------------------------------------------------
@@ -68,9 +71,16 @@ void vtkOpenGLScalarsToColorsPainter::ReleaseGraphicsResources(vtkWindow* win)
 int vtkOpenGLScalarsToColorsPainter::GetPremultiplyColorsWithAlpha(
   vtkActor* actor)
 {
+  // Use the AlphaBitPlanes member, which should already be initialized. If
+  // not, initialize it.
   GLint alphaBits;
-  glGetIntegerv(GL_ALPHA_BITS, &alphaBits);
-  
+  if (this->AlphaBitPlanes < 0)
+    {
+    glGetIntegerv(GL_ALPHA_BITS, &alphaBits);
+    this->AlphaBitPlanes = (int)alphaBits;
+    }
+  alphaBits = (GLint)this->AlphaBitPlanes;
+
   // Dealing with having a correct alpha (none square) in the framebuffer
   // is only required if there is an alpha component in the framebuffer
   // (doh...) and if we cannot deal directly with BlendFuncSeparate.
@@ -94,6 +104,19 @@ void vtkOpenGLScalarsToColorsPainter::RenderInternal(vtkRenderer *renderer,
                                                      bool forceCompileOnly)
 {
   vtkProperty* prop = actor->GetProperty();
+
+  // If we have not yet set the alpha bit planes, do it based on the 
+  // render window so we're not querying GL in the middle of render.
+  if (this->AlphaBitPlanes < 0)
+    {
+    vtkOpenGLRenderer *oRenderer=static_cast<vtkOpenGLRenderer *>(renderer);
+    if (oRenderer != NULL)
+      {
+      vtkOpenGLRenderWindow* context = vtkOpenGLRenderWindow::SafeDownCast(
+        oRenderer->GetRenderWindow());
+      this->AlphaBitPlanes = context->GetAlphaBitPlanes();
+      }
+    }
 
   // If we are coloring by texture, then load the texture map.
   if (this->ColorTextureMap)
@@ -200,4 +223,5 @@ void vtkOpenGLScalarsToColorsPainter::RenderInternal(vtkRenderer *renderer,
 void vtkOpenGLScalarsToColorsPainter::PrintSelf(ostream& os, vtkIndent indent)
 {
   this->Superclass::PrintSelf(os, indent);
+  os << indent << "AlphaBitPlanes: " << this->AlphaBitPlanes << endl;
 }

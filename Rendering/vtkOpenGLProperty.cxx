@@ -434,9 +434,8 @@ void vtkOpenGLProperty::Render(vtkActor *anActor,
   info[3] = static_cast<GLfloat>(this->Opacity);
   
   double factor;
-  GLint alphaBits;
-  glGetIntegerv(GL_ALPHA_BITS, &alphaBits);
-  
+  GLint alphaBits = context->GetAlphaBitPlanes();
+
   // Dealing with having a correct alpha (none square) in the framebuffer
   // is only required if there is an alpha component in the framebuffer
   // (doh...) and if we cannot deal directly with BlendFuncSeparate.
@@ -665,7 +664,7 @@ void vtkOpenGLProperty::PostRender(vtkActor *actor, vtkRenderer *renderer)
 
 //-----------------------------------------------------------------------------
 // Implement base class method.
-void vtkOpenGLProperty::BackfaceRender(vtkActor *vtkNotUsed(anActor), vtkRenderer *vtkNotUsed(ren))
+void vtkOpenGLProperty::BackfaceRender(vtkActor *vtkNotUsed(anActor), vtkRenderer *ren)
 {
   int i;
   GLfloat info[4];
@@ -675,9 +674,17 @@ void vtkOpenGLProperty::BackfaceRender(vtkActor *vtkNotUsed(anActor), vtkRendere
 
   info[3] = static_cast<GLfloat>(this->Opacity);
 
+  vtkOpenGLRenderer *oRenderer=static_cast<vtkOpenGLRenderer *>(ren);
+  if (!oRenderer)
+    {
+    vtkErrorMacro("the vtkOpenGLProperty need a vtkOpenGLRenderer to render.");
+    return;
+    }
+  vtkOpenGLRenderWindow* context = vtkOpenGLRenderWindow::SafeDownCast(
+      oRenderer->GetRenderWindow());
+
   double factor;
-  GLint alphaBits;
-  glGetIntegerv(GL_ALPHA_BITS, &alphaBits);
+  GLint alphaBits = context->GetAlphaBitPlanes();
   
   // Dealing with having a correct alpha (none square) in the framebuffer
   // is only required if there is an alpha component in the framebuffer
