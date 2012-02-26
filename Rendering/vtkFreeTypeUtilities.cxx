@@ -1801,6 +1801,13 @@ void vtkFreeTypeUtilities::PrepareImageData(vtkImageData *data,
   text_size[0] = (text_bbox[1] - text_bbox[0] + 1);// + abs(text_bbox[0]);
   text_size[1] = (text_bbox[3] - text_bbox[2] + 1);// + abs(text_bbox[2]);
 
+  // Use the maximum of the dims or the text_bbox max values so we can get
+  // the maximum pixel that was drawn in the texture. This prevents us from
+  // allocating textures that are too small for words like "Erg" that have 
+  // leading text_bbox[0] offsets.
+  if (text_bbox[1] > text_size[0]) text_size[0] = text_bbox[1];
+  if (text_bbox[3] > text_size[1]) text_size[1] = text_bbox[3];
+
   // If the RGBA image data is too small, resize it to the next power of 2
   // WARNING: at this point, since this image is going to be a texture
   // we should limit its size or query the hardware
@@ -1814,7 +1821,7 @@ void vtkFreeTypeUtilities::PrepareImageData(vtkImageData *data,
   data->GetDimensions(img_dims);
 
   if (img_dims[0] < text_size[0] || img_dims[1] < text_size[1] ||
-      text_size[0] * 2 < img_dims[0] || text_size[1] * 2 < img_dims[0])
+      text_size[0] * 2 < img_dims[0] || text_size[1] * 2 < img_dims[1])
     {
     new_img_dims[0] = 1 << static_cast<int>(ceil(log(static_cast<double>(text_size[0])) / log(2.0)));
     new_img_dims[1] = 1 << static_cast<int>(ceil(log(static_cast<double>(text_size[1])) / log(2.0)));
