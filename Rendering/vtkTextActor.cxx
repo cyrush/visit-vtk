@@ -592,9 +592,16 @@ void vtkTextActor::ComputeRectangle(vtkViewport *viewport)
     dims[0] = ( text_bbox[1] - text_bbox[0] + 1 );
     dims[1] = ( text_bbox[3] - text_bbox[2] + 1 );
 
-    // compuet TCoords
+    // Use the maximum of the dims or the text_bbox max values so we can get
+    // the maximum pixel that was drawn in the texture. This prevents us from
+    // truncating words like "Erg" that have leading text_bbox[0] offsets.
+    dims[0] = (text_bbox[1] > dims[0]) ? (text_bbox[1]) : dims[0];
+    dims[1] = (text_bbox[3] > dims[1]) ? (text_bbox[3]) : dims[1];
+
+    // compute TCoords
     vtkFloatArray* tc = vtkFloatArray::SafeDownCast
       ( this->Rectangle->GetPointData()->GetTCoords() );
+
     tc->InsertComponent( 1,1, static_cast<double>( dims[1] ) / p2dims[1] );
     tc->InsertComponent( 2,0, static_cast<double>( dims[0] ) / p2dims[0] );
     tc->InsertComponent( 2,1, static_cast<double>( dims[1] ) / p2dims[1] );
