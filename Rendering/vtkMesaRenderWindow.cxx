@@ -18,7 +18,7 @@
 #include "GL/gl.h"
 
 #include "vtkOpenGLRenderWindow.h"
-#include "vtkXMesaRenderWindow.h"
+#include "vtkMesaRenderWindow.h"
 
 // Make sure vtkMesaRenderWindow is a copy of vtkOpenGLRenderWindow
 // with vtkOpenGLRenderWindow replaced with vtkMesaRenderWindow

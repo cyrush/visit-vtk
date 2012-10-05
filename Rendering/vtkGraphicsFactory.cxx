@@ -95,6 +95,8 @@
 #include "vtkMesaRepresentationPainter.h"
 #include "vtkMesaScalarsToColorsPainter.h"
 #include "vtkMesaTexture.h"
+#endif
+#if defined(VTK_USE_MANGLED_MESA) && defined(VTK_USE_X) 
 #include "vtkXMesaRenderWindow.h"
 #endif
 
