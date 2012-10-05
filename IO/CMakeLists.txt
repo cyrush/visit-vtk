@@ -92,7 +92,7 @@ vtkMultiBlockPLOT3DReader.cxx
 vtkMoleculeReaderBase.cxx
 vtkOBJReader.cxx
 ${_VTK_OGGTHEORA_SOURCES}
-vtkOpenFOAMReader.cxx
+#vtkOpenFOAMReader.cxx
 vtkOutputStream.cxx
 vtkPDBReader.cxx
 vtkPLOT3DReader.cxx
