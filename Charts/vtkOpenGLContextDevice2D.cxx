@@ -44,6 +44,7 @@
 #include "vtkOpenGLRenderer.h"
 #include "vtkOpenGLRenderWindow.h"
 #include "vtkExtensionManager.h"
+#include "vtkOpenGLExtensionManager.h"
 #include "vtkShaderProgram2.h"
 #include "vtkgl.h"
 
