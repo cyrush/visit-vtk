@@ -577,8 +577,14 @@ void vtkCocoaRenderWindow::CreateAWindow()
     this->SetRootWindow(theWindow);
     this->WindowCreated = 1;
 
-    [theWindow makeKeyAndOrderFront:nil];
-    [theWindow setAcceptsMouseMovedEvents:YES];
+    // Cyrus' Note:
+    // make key and order front will show the window
+    // we don't want this if offscreen was requested
+    if(!this->OffScreenRendering)
+    {
+        [theWindow makeKeyAndOrderFront:nil];
+        [theWindow setAcceptsMouseMovedEvents:YES];
+    }
   }
   
   // Always use the scaling factor from the window once it is created.
